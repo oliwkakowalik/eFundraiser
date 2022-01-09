@@ -18,6 +18,17 @@ class RegisteredUserController extends Controller
      *
      * @return \Illuminate\View\View
      */
+
+    public function index() {
+        // /users
+        // List of all users
+    }
+
+    public function show(User $user) {
+        // /users/id
+        // User profile
+    }
+
     public function create()
     {
         return view('auth.register');

@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\DB;
 
 class DonationSeeder extends Seeder
 {
@@ -13,7 +14,7 @@ class DonationSeeder extends Seeder
      */
     public function run()
     {
-        DB::table('fundraisers')->insert([
+        DB::table('donations')->insert([
             'amount' => '3000',
             'description' => 'Kocham pieski',
             'is_anonymous' => '1',

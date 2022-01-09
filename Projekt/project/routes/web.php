@@ -23,4 +23,6 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
-
+Route::resource('fundraisers', \App\Http\Controllers\FundraiserController::class);
+Route::resource('fundraisers.donations', \App\Http\Controllers\FundraiserDonationController::class);
+Route::resource('users', \App\Http\Controllers\Auth\RegisteredUserController::class);

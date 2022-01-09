@@ -14,6 +14,7 @@ class FundraiserController extends Controller
     public function index()
     {
         //
+        return "FUNDRAISERS INDEX";
     }
 
     /**
