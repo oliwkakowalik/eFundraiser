@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
+use App\Models\Fundraiser;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class FundraiserController extends Controller
 {
@@ -14,7 +17,7 @@ class FundraiserController extends Controller
     public function index()
     {
         //
-        return "FUNDRAISERS INDEX";
+        return view('fundraisers.index')->withFundraisers(Fundraiser::all());
     }
 
     /**
@@ -24,7 +27,7 @@ class FundraiserController extends Controller
      */
     public function create()
     {
-        //
+        return view('fundraisers.create')->withCategories(Category::all());
     }
 
     /**
@@ -35,18 +38,37 @@ class FundraiserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required|unique:App\Models\Fundraiser,title',
+            'category' => 'required',
+            'description' => 'required',
+            'stop_date' => 'required|date|after:now',
+            'amount_to_be_raised' => 'required|gt:0'
+        ]);
+
+        $fundraiser = new Fundraiser();
+        $fundraiser->title = $request->title;
+        $fundraiser->category_id = Category::where('name', $request->category)->firstOrFail()->id;
+        $fundraiser->description = $request->description;
+        $fundraiser->stop_date = $request->stop_date;
+        $fundraiser->amount_raised = 0;
+        $fundraiser->amount_to_be_raised = $request->amount_to_be_raised;
+        $fundraiser->user_id = Auth::id();
+
+        $fundraiser->save();
+
+        return redirect()->route('fundraisers.show', $fundraiser);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  Fundraiser $fundraiser
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Fundraiser $fundraiser)
     {
-        //
+        return view('fundraisers.show')->withFundraiser($fundraiser);
     }
 
     /**

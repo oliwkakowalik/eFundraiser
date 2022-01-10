@@ -18,7 +18,7 @@ class CreateDonationsTable extends Migration
             $table->float('amount');
             $table->text('description');
             $table->boolean('is_anonymous');
-            $table->timestamp('when_donated')->useCurrent();
+            $table->timestamps();
         });
 
         Schema::table('donations', function (Blueprint $table){

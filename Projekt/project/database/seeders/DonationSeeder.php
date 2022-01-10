@@ -18,9 +18,9 @@ class DonationSeeder extends Seeder
             'amount' => '3000',
             'description' => 'Kocham pieski',
             'is_anonymous' => '1',
-            'when_donated' => '2022-01-23 15:00:00',
             'user_id' => '2',
             'fundraiser_id' => '1',
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString()
         ]);
     }
 }
