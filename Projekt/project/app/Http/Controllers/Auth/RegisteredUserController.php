@@ -20,13 +20,15 @@ class RegisteredUserController extends Controller
      */
 
     public function index() {
-        // /users
-        // List of all users
+
+        $_SESSION['logged_user_id'] = auth()->user()->id;
+        $users = User::all();
+        return view('users.index')->withUsers($users);
     }
 
     public function show(User $user) {
-        // /users/id
-        // User profile
+
+        return view('users.show')->withUser($user);
     }
 
     public function create()
