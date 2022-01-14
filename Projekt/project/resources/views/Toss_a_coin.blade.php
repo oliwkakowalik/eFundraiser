@@ -22,8 +22,6 @@
 </head>
 <body>
 
-Zbiórki
-
 <div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
     @if (Route::has('login'))
         <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
@@ -38,6 +36,21 @@ Zbiórki
             @endauth
         </div>
 @endif
+        <div>
+            @foreach($fundraisers as $fundraiser)
+                <a href="{{ route('fundraisers.show', $fundraiser) }}">{{ $fundraiser->title }}</a>
+            @endforeach
+
+        </div>
+        <br>
+        <div>
+            <form method="get" action="{{ route('fundraisers.index') }}">
+                <x-button class="ml-4">
+                    {{ __('See all') }}
+                </x-button>
+            </form>
+        </div>
+</div>
 
 </body>
 </html>

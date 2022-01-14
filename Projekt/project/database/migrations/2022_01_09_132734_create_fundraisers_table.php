@@ -18,7 +18,7 @@ CreateFundraisersTable extends Migration
             $table->id();
             $table->float('amount_to_be_raised');
             $table->float('amount_raised');
-            $table->timestamp('start_date')->useCurrent();
+            $table->timestamps();
             $table->timestamp('stop_date');
             $table->string('title');
             $table->text('description');

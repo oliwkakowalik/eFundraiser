@@ -9,6 +9,15 @@ modules:
     enabled:
         - PhpBrowser:
             url: http://localhost:8888
+        - REST:
+            depends: PhpBrowser
+            url: 'https://example.com/api/v1/'
+            shortDebugResponse: 300
+            aws:
+              key: accessKey
+              secret: accessSecret
+              service: awsService
+              region: awsRegion
         - \Helper\Acceptance
         - Db:
             dsn: 'mysql:host=127.0.0.1;dbname=test'
@@ -17,4 +26,4 @@ modules:
             populate: true
             cleanup: true
             dump: tests_codeception/_data/dump.sql
-step_decorators: ~        
+step_decorators: ~
