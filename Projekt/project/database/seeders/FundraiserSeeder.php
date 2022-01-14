@@ -15,8 +15,8 @@ class FundraiserSeeder extends Seeder
     public function run()
     {
         DB::table('fundraisers')->insert([
-            'title' => 'Na schronisko dla piesków',
-            'description' => 'Pomóż Nam uratować krakowskie schronisko dla psów "Kundelek"!',
+            'title' => 'Na schronisko dla **piesków**',  // do usuniecia
+            'description' => 'Pomóż Nam uratować krakowskie schronisko dla psów **"Kundelek"**!',
             'user_id' => '1',
             'category_id' => '6',
             'stop_date' => '2022-02-20 15:00:0',
@@ -27,7 +27,7 @@ class FundraiserSeeder extends Seeder
 
         DB::table('fundraisers')->insert([
             'title' => 'Na schronisko dla kotków',
-            'description' => 'Pomóż Nam uratować krakowskie schronisko dla psów "Łapka"!',
+            'description' => 'Pomóż Nam uratować krakowskie schronisko dla psów **"Łapka"**!',
             'user_id' => '1',
             'category_id' => '6',
             'stop_date' => '2022-03-20 15:00:0',

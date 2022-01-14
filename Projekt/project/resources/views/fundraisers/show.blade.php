@@ -47,10 +47,11 @@
                                     Description
                                 </dt>
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                    {{ $fundraiser->description }}
+                                    <x-markdown>
+                                        {{ $fundraiser->description }}
+                                    </x-markdown>
                                 </dd>
                             </div>
-
                             <div class="bg-white px-4 pb-5 flex items-center justify-end mt-4">
 
                                 <form method="get" action="{{ route('fundraisers.edit', $fundraiser) }}">
