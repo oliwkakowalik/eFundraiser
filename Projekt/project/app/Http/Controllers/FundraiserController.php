@@ -39,7 +39,7 @@ class FundraiserController extends Controller
     public function store(Request $request)
     {
         $this->validate($request, [
-            'title' => 'required|unique:App\Models\Fundraiser,title',
+            'title' => 'required',
             'category' => 'required',
             'description' => 'required',
             'stop_date' => 'required|date|after:now',
@@ -50,7 +50,7 @@ class FundraiserController extends Controller
         $fundraiser->title = $request->title;
         $fundraiser->category_id = Category::where('name', $request->category)->firstOrFail()->id;
         $fundraiser->description = $request->description;
-        $fundraiser->stop_date = $request->stop_date;
+        $fundraiser->stop_date = $request->stop_date . " 23:59:59";
         $fundraiser->amount_raised = 0;
         $fundraiser->amount_to_be_raised = $request->amount_to_be_raised;
         $fundraiser->user_id = Auth::id();
@@ -74,34 +74,52 @@ class FundraiserController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  Fundraiser $fundraiser
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Fundraiser $fundraiser)
     {
-        //
+        return view("fundraisers.edit")->withFundraiser($fundraiser)->withCategories(Category::all());
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  Fundraiser $fundraiser
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Fundraiser $fundraiser)
     {
-        //
+        $this->validate($request, [
+            'title' => 'required',
+            'category' => 'required',
+            'description' => 'required',
+            'stop_date' => 'required|date|after:now',
+            'amount_to_be_raised' => 'required|gt:0'
+        ]);
+
+        $fundraiser->title = $request->title;
+        $fundraiser->category_id = Category::where('name', $request->category)->firstOrFail()->id;
+        $fundraiser->description = $request->description;
+        $fundraiser->stop_date = $request->stop_date . " 23:59:59";
+        $fundraiser->amount_to_be_raised = $request->amount_to_be_raised;
+
+        $fundraiser->save();
+
+        return redirect()->route('fundraisers.show', $fundraiser);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  Fundraiser $fundraiser
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Fundraiser $fundraiser)
     {
-        //
+        $fundraiser->delete();
+
+        return redirect()->route('fundraisers');
     }
 }

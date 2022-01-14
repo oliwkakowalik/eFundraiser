@@ -11,7 +11,7 @@
 
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
 
-                    <form method="post" action="{{ route('fundraisers.store') }}">
+                    <form id="create_form"  method="post" action="{{ route('fundraisers.store') }}">
 
                         @csrf
 
@@ -22,10 +22,14 @@
 
                         <div class="mt-4">
                             <x-label for="category" :value="__('Category')" />
-                            <select id="category" class="block mt-1 w-full" name="category" selected="">
-                                <option value="">-- Choose category --</option>
+                            <select id="category" class="block mt-1 w-full" name="category">
+                                <option value="" selected disabled hidden>-- Choose category --</option>
                                 @foreach($categories as $category)
-                                    <option value="{{ $category->name }}">{{ $category->name }}</option>
+                                    <option
+                                        @if($category->name == old('category'))
+                                            selected
+                                        @endif
+                                        value="{{ $category->name }}">{{ $category->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -45,6 +49,8 @@
                             <x-input id="amount_to_be_raised" class="block mt-1 w-full" type="number" name="amount_to_be_raised"
                                      :value="old('amount_to_be_raised')" />
                         </div>
+
+
 
                         <div class="flex items-center justify-end mt-4">
 

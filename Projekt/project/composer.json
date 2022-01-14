@@ -17,6 +17,7 @@
         "codeception/module-asserts": "^2.0",
         "codeception/module-db": "^2.0",
         "codeception/module-phpbrowser": "^2.0",
+        "codeception/module-rest": "^2.0",
         "facade/ignition": "^2.5",
         "fakerphp/faker": "^1.9.1",
         "laravel/breeze": "^1.6",

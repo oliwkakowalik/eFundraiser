@@ -22,13 +22,15 @@ class CreateDonationsTable extends Migration
         });
 
         Schema::table('donations', function (Blueprint $table){
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users');
+            $table->unsignedBigInteger('user_id')->nullable();
+            $table->foreign('user_id')->references('id')->on('users')
+                ->onDelete('set null');
         });
 
         Schema::table('donations', function (Blueprint $table){
             $table->unsignedBigInteger('fundraiser_id');
-            $table->foreign('fundraiser_id')->references('id')->on('fundraisers');
+            $table->foreign('fundraiser_id')->references('id')->on('fundraisers')
+                ->onDelete('cascade');
         });
     }
 

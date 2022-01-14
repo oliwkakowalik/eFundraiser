@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Fundraiser;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -10,11 +11,11 @@ use Illuminate\Support\Facades\Route;
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
 | contains the "web" middleware group. Now create something great!
-|
+|s
 */
 
 Route::get('/', function () {
-    return view('Toss_a_coin');
+    return view('Toss_a_coin')->withFundraisers(Fundraiser::orderBy('stop_date')->get()->take(1));
 });
 
 Route::get('/dashboard', function () {
