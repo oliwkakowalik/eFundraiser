@@ -29,7 +29,7 @@
                                     <div class="text-sm text-gray-500">{{ $user->name }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                    <form method="get" action=" @if( $user->id == $_SESSION['logged_user_id'] ) {{ route('dashboard', $user) }} @else {{ route('users.show', $user) }} @endif">
+                                    <form method="get" action=" @if( isset($_SESSION['logged_user_id']) && $user->id == $_SESSION['logged_user_id'] ) {{ route('dashboard', $user) }} @else {{ route('users.show', $user) }} @endif">
                                         <x-button class="ml-4">
                                             {{ __('View ') }} {{$user->name}} {{__('profile')}}
                                         </x-button>

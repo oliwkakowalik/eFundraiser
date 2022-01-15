@@ -3,6 +3,10 @@ $I = new AcceptanceTester($scenario ?? null);
 
 $I->wantTo('have users page');
 
+$I->amOnPage('/users');
+$I->see('List of users', 'h2');
+
+$I->click('Log in');
 $I->amOnPage('/login');
 
 $I->fillField('email', 'john.doe@gmail.com');

@@ -7,7 +7,11 @@
         </x-slot>
 
         <div class="mb-4 text-sm text-gray-600">
-            {{ __('Thanks for verifying your email! Before getting started, could you verify your email address by clicking on the link we just emailed to you? If you didn\'t receive the email, we will gladly send you another.') }}
+            {{ __('Thanks for verifying your email! Before getting started, could you verify your email address by clicking on the link we just emailed to you?') }}
+        </div>
+
+        <div class="mb-4 text-sm text-gray-600">
+            {{ __('If you already have verified your email click: I have verified my email.') }}
         </div>
 
         @if (session('status') == 'verification-link-sent')
@@ -16,7 +20,7 @@
             </div>
         @endif
 
-        <form method="get" action="{{ route('verification.verify', [auth()->user()->id, sha1(auth()->user()->email)]) }}">
+        <form method="get" action="{{ route('verification.verify_', auth()->user()->id) }}">
             @csrf
 
             <div>
@@ -25,6 +29,10 @@
                 </x-button>
             </div>
         </form>
+
+        <div class="mb-4 text-sm text-gray-600">
+            {{ __('If you didn\'t receive the email, we will gladly send you another.') }}
+        </div>
 
         <div class="mt-4 flex items-center justify-between">
             <form method="POST" action="{{ route('verification.send') }}">

@@ -21,7 +21,8 @@ class RegisteredUserController extends Controller
 
     public function index() {
 
-        $_SESSION['logged_user_id'] = auth()->user()->id;
+        if( isset(auth()->user()->id) )
+            $_SESSION['logged_user_id'] = auth()->user()->id;
         $users = User::all();
         return view('users.index')->withUsers($users);
     }
