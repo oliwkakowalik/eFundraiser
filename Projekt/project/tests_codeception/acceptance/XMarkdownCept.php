@@ -17,8 +17,9 @@ $I->click('Log in');
 
 $I->seeCurrentUrlEquals('/dashboard');
 
-$I->see('John Doe');
-$I->see("You're logged in!");
+$my_name = $I->grabFromDatabase('users', 'name', array('name' => 'John Doe'));
+
+$I->see($my_name."'s account");
 
 $I->amOnPage('/fundraisers');
 

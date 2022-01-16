@@ -19,7 +19,8 @@ Route::get('/', function () {
 });
 
 Route::get('/dashboard', function () {
-    return view('dashboard');
+    $fundraisers = Fundraiser::all();
+    return view('dashboard')->withFundraisers($fundraisers);
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
