@@ -22,30 +22,143 @@
 </head>
 <body>
 
-
-
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
             {{ __('Welcome to eFundraiser') }}
         </h2>
     </x-slot>
-{{--<div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">--}}
-{{--        <div>--}}
-{{--            @foreach($fundraisers as $fundraiser)--}}
-{{--                <a href="{{ route('fundraisers.show', $fundraiser) }}">{{ $fundraiser->title }}</a>--}}
-{{--            @endforeach--}}
+    <div class="relative flex items-top justify-center bg-gray-100 py-12 px-6">
+        <div class="flex-1">
+            <h3  class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Latest fundraisers') }}
+            </h3>
+            <br>
+            @if($fundraisers->isEmpty())
+                <p class="p-6">No fundraisers available.</p>
+            @else
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                    <tr>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Title
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Amount
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Ends at
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach($fundraisers as $fundraiser)
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <a href="{{ route('fundraisers.show', $fundraiser) }}" class="text-indigo-600
+                                    hover:text-indigo-900">{{ $fundraiser->title }}</a>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{ $fundraiser->amount_raised }} /
+                                    {{ $fundraiser->amount_to_be_raised }}</div>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div class="text-sm text-gray-900">{{ $fundraiser->stop_date }}</div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            @endif
 
-{{--        </div>--}}
-{{--        <br>--}}
-{{--        <div>--}}
-{{--            <form method="get" action="{{ route('fundraisers.index') }}">--}}
-{{--                <x-button class="ml-4">--}}
-{{--                    {{ __('See all') }}--}}
-{{--                </x-button>--}}
-{{--            </form>--}}
-{{--        </div>--}}
-{{--</div>--}}
+        </div>
+        <div class="flex-1">
+            <h3  class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Top users') }}
+            </h3>
+            <br>
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Username
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Total
+                    </th>
+                </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                @foreach($users as $user)
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <a href="{{ route('users.show', $user) }}" class="text-indigo-600
+                                    hover:text-indigo-900">{{ $user->name }}</a>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div class="text-sm text-gray-900">Total amount (calculate)</div>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+        <div class="flex-1">
+            <h3  class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Latest donations') }}
+            </h3>
+            <br>
+            <table class="min-w-full divide-y divide-gray-200">
+                <thead class="bg-gray-50">
+                <tr>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Fundraiser
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        User
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                        Amount
+                    </th>
+                </tr>
+                </thead>
+                <tbody class="bg-white divide-y divide-gray-200">
+                @foreach($donations as $donation)
+                    <tr>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <a href="{{ route('fundraisers.show', $donation->fundraiser) }}" class="text-indigo-600
+                                    hover:text-indigo-900">{{ $donation->fundraiser->title }}</a>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <a href="{{ route('users.show', $donation->user) }}" class="text-indigo-600
+                                    hover:text-indigo-900">{{ $donation->user->name }}</a>
+                        </td>
+                        <td class="px-6 py-4 whitespace-nowrap">
+                            <div>{{ $donation->amount }}</div>
+                        </td>
+                    </tr>
+                @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="relative flex items-top justify-center bg-gray-100 py-12 px-6">
+        <div class="flex items-center justify-end mt-4 px-4 pb-5">
+            <form method="get" action="{{ route('fundraisers.create') }}">
+                <x-button class="ml-4">
+                    {{ __('Create new fundraiser') }}
+                </x-button>
+            </form>
+        </div>
+    </div>
 </x-app-layout>
 </body>
 </html>
