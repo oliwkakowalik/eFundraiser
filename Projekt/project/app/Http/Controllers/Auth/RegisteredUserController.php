@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Donation;
 use App\Models\Fundraiser;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
@@ -10,6 +11,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use App\Http\Controllers\FundraiserController;
 
@@ -33,8 +35,9 @@ class RegisteredUserController extends Controller
     public function show(User $user) {
 
         $fundraisers = Fundraiser::all();
+        $donations = Donation::all();
 
-        return view('users.show')->withUser($user)->withFundraisers($fundraisers);
+        return view('users.show')->withUser($user)->withFundraisers($fundraisers)->withDonations($donations);
     }
 
     public function create()
@@ -70,4 +73,37 @@ class RegisteredUserController extends Controller
 
         return redirect(RouteServiceProvider::HOME);
     }
+
+    public function edit(User $user)
+    {
+        return view('users.edit')->withUser($user);
+    }
+
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, User $user)
+    {
+        $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', Rule::unique('users')->ignore($user->id)],
+            'password' => ['required', 'min:6'],
+        ]);
+
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->password = Hash::make($request->password);
+
+        $user->save();
+
+        Auth::login($user);
+
+        return redirect(RouteServiceProvider::HOME);
+    }
+
 }

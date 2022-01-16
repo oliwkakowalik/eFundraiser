@@ -2,6 +2,7 @@
 
 use App\Models\Fundraiser;
 use Illuminate\Support\Facades\Route;
+use App\Models\Donation;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,7 +21,8 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     $fundraisers = Fundraiser::all();
-    return view('dashboard')->withFundraisers($fundraisers);
+    $donations = Donation::all();
+    return view('dashboard')->withFundraisers($fundraisers)->withDonations($donations);
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';

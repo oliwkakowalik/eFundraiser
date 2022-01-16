@@ -149,5 +149,12 @@ $I->seeInDatabase('fundraisers', [
 ]);
 
 
+$I->click('Dashboard');
+$I->seeCurrentUrlEquals('/dashboard');
+
+$I->see($amount);
+$I->click($amount);
+$I->seeCurrentUrlEquals('/fundraisers/' . $id . '/donations/' . $idDonation);
+
 
 
