@@ -14,6 +14,6 @@ $I->click('Log in');
 
 $I->seeCurrentUrlEquals('/dashboard');
 
-$I->see('John Doe');
-$I->see("You're logged in!");
+$I->see('John Doe\'s account');
+
 
