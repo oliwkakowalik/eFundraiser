@@ -28,9 +28,14 @@
                         <div class="mt-4">
                             <x-label for="category" :value="__('Do you want to stay anonymoys?')" />
                             <select id="is_anonymous" class="block mt-1 w-full" name="is_anonymous">
-                                <option value="" selected disabled hidden>-- Choose an option --</option>
-                                <option value="1">Anonymous donation</option>
-                                <option value="0">Show my username</option>
+                                <option    @if(1 == old('is_anonymous'))
+                                           selected
+                                           @endif
+                                    value="1">Anonymous donation</option>
+                                <option    @if(0 == old('is_anonymous'))
+                                           selected
+                                           @endif
+                                    value="0">Show my username</option>
                             </select>
                         </div>
 

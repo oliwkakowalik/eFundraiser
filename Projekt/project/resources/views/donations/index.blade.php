@@ -17,18 +17,7 @@
                         <br>
                     @endforeach
                 @endif
-{{--
-dodawanie zbiorek powinno byc pod konkretnymi zbiorkami ale dam sobie tutaj poki co do testow
---}}
-                <div class="flex items-center justify-end mt-4 px-4 pb-5">
-                    <form method="get" action="{{ route('fundraisers.donations.create', $fundraiser) }}">
-                        <x-button class="ml-4">
-                            {{ __('Create new...') }}
-                        </x-button>
-                    </form>
-
-                </div>
-            </div>
+        </div>
         </div>
     </div>
 </x-app-layout>
