@@ -10,7 +10,10 @@ $I->fillField('email', 'john.doe@gmail.com');
 $I->fillField('password', 'secret');
 $I->click('Log in');
 
-$I->amOnPage('/fundraisers');
+$I->seeCurrentUrlEquals('/dashboard');
+$I->click('Fundraisers');
+
+$I->seeCurrentUrlEquals('/fundraisers');
 
 $I->click('Create new...');
 $I->seeCurrentUrlEquals('/fundraisers/create');
