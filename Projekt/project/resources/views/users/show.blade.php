@@ -30,7 +30,13 @@
                                     created fundraisers:
                                 </dt>
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                    //links to user's fundraisers
+                                    @foreach($fundraisers as $fundraiser)
+                                        @if( $user->id == $fundraiser->user_id)
+                                            <a href="{{ route('fundraisers.show', $fundraiser) }}">{{$fundraiser->title}}</a>
+                                            <br>
+                                        @endif
+
+                                    @endforeach
                                 </dd>
                             </div>
                             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

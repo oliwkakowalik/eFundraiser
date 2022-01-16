@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Models\Fundraiser;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Auth\Events\Registered;
@@ -10,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules;
+use App\Http\Controllers\FundraiserController;
 
 class RegisteredUserController extends Controller
 {
@@ -24,12 +26,15 @@ class RegisteredUserController extends Controller
         if( isset(auth()->user()->id) )
             $_SESSION['logged_user_id'] = auth()->user()->id;
         $users = User::all();
+
         return view('users.index')->withUsers($users);
     }
 
     public function show(User $user) {
 
-        return view('users.show')->withUser($user);
+        $fundraisers = Fundraiser::all();
+
+        return view('users.show')->withUser($user)->withFundraisers($fundraisers);
     }
 
     public function create()

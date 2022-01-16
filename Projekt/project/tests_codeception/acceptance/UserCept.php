@@ -43,10 +43,21 @@ $I->click('Users');
 $I->seeCurrentUrlEquals('/users');
 
 $my_name = $I->grabFromDatabase('users', 'name', array('name' => 'John Doe'));
+$my_id = $I->grabFromDatabase('users', 'id', array('name' => 'John Doe'));
+
 $I->click('View '.$my_name.' profile');
 
 $I->seeCurrentUrlEquals('/dashboard');
 
 $I->see($my_name."'s account");
+
+$title = $I->grabFromDatabase('fundraisers', 'title', array('user_id' => $my_id));
+$fundraiser_id = $I->grabFromDatabase('fundraisers', 'id', array('user_id' => $my_id));
+$I->see($my_name."'s account");
+
+$I->click($title);
+$I->seeCurrentUrlEquals('/fundraisers/'.$fundraiser_id);
+
+$I->amOnPage('/dashboard');
 
 $I->click("Verify account");
