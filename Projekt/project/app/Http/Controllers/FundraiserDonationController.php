@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Donation;
 use Illuminate\Http\Request;
+use App\Models\Fundraiser;
+use Illuminate\Support\Facades\Auth;
+
 
 class FundraiserDonationController extends Controller
 {
@@ -11,9 +15,9 @@ class FundraiserDonationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Fundraiser $fundraiser)
     {
-        //
+        return view('donations.index')->withFundraiser($fundraiser);
     }
 
     /**
@@ -21,9 +25,10 @@ class FundraiserDonationController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Fundraiser $fundraiser)
     {
-        //
+        return view('donations.create')->withFundraiser($fundraiser);
+
     }
 
     /**
@@ -32,9 +37,26 @@ class FundraiserDonationController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, Fundraiser $fundraiser)
     {
-        //
+        $this->validate($request, [
+            'amount' => 'required|numeric',
+            'description' => 'required',
+            'is_anonymous' => 'required',
+        ]);
+
+        $donation = new Donation();
+        $donation->amount = $request->amount;
+        $donation->description = $request->description;
+        $donation->is_anonymous = $request->is_anonymous;
+        $donation->user_id = Auth::id();
+        $donation->fundraiser_id = $request->fundraiser->id;
+        $donation->created_at = \Carbon\Carbon::now()->toDateTimeString();
+        $donation->updated_at = null;
+
+        $donation->save();
+
+        return redirect()->route('fundraisers.donations.show', [$fundraiser, $donation]);
     }
 
     /**
@@ -43,9 +65,9 @@ class FundraiserDonationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Fundraiser $fundraiser, Donation $donation)
     {
-        //
+
     }
 
     /**
@@ -54,9 +76,8 @@ class FundraiserDonationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Fundraiser $fundraiser, Donation $donation)
     {
-        //
     }
 
     /**
@@ -66,9 +87,9 @@ class FundraiserDonationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, Fundraiser $fundraiser, Donation $donation)
     {
-        //
+
     }
 
     /**
@@ -77,8 +98,7 @@ class FundraiserDonationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(Fundraiser $fundraiser, Donation $donation)
     {
-        //
     }
 }
