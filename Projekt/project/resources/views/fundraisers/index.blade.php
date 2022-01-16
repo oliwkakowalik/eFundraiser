@@ -33,7 +33,7 @@
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <a href="{{ route('fundraisers.show', $fundraiser) }}" class="text-indigo-600
-                                    hover:text-indigo-900"><x-markdown>{{ $fundraiser->title }}</x-markdown></a>
+                                    hover:text-indigo-900">{{ $fundraiser->title }}</a>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-900">{{ $fundraiser->amount_raised }} /

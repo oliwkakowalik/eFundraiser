@@ -23,4 +23,5 @@ $I->see($my_name."'s account");
 
 $I->amOnPage('/fundraisers');
 
-$I->see("piesków",'strong');
+$I->click('Na schronisko dla kotków');
+$I->see("Łapka",'strong');

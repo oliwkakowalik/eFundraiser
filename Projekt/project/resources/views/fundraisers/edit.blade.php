@@ -10,7 +10,9 @@
                 <div class="p-6 bg-white border-b border-gray-200">
 
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
-
+                    <div>
+                        {{$date = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $fundraiser->stop_date)->format('Y-m-d')}}
+                    </div>
                     <form method="post" action="{{ route('fundraisers.update', $fundraiser) }}">
 
                         @csrf
@@ -31,7 +33,7 @@
                                         @if($fundraiser->category->name == $category->name)
                                             selected
                                         @endif
-                                        value="$category->name">{{ $category->name }}</option>
+                                        >{{ $category->name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -45,7 +47,7 @@
                         <div class="mt-4">
                             <x-label for="stop_date" :value="__('Stop date')" />
                             <x-input id="stop_date" class="block mt-1 w-full" type="date" name="stop_date" :
-                                     value="$fundraiser->stop_date" />
+                                     value="{{$date = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $fundraiser->stop_date)->format('Y-m-d')}}" />
                         </div>
 
                         <div class="mt-4">

@@ -91,6 +91,7 @@ class FundraiserController extends Controller
      */
     public function update(Request $request, Fundraiser $fundraiser)
     {
+
         $this->validate($request, [
             'title' => 'required',
             'category' => 'required',
@@ -105,7 +106,7 @@ class FundraiserController extends Controller
         $fundraiser->stop_date = $request->stop_date . " 23:59:59";
         $fundraiser->amount_to_be_raised = $request->amount_to_be_raised;
         $fundraiser->updated_at = \Carbon\Carbon::now()->toDateTimeString();
-        
+
         $fundraiser->save();
 
         return redirect()->route('fundraisers.show', $fundraiser);

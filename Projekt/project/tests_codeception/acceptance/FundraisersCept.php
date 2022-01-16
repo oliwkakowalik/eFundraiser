@@ -1,6 +1,7 @@
 <?php
 
 use App\Models\Category;
+use Carbon\Carbon;
 
 $I = new AcceptanceTester($scenario ?? null);
 $I->wantTo('have fundraisers page');
@@ -29,8 +30,9 @@ $I->see('The amount to be raised field is required.', 'li');
 $title = 'Test Title';
 $description = 'Test Description';
 $category = 'Needs';
-$stop_date = strtotime("01/01/2030 23:59:00");
-$stop_date_form = "01/01/2030";
+$date_string = "01/01/2030 23:59:00";
+$stop_date = strtotime($date_string);
+$stop_date_form = Carbon::createFromFormat('Y-m-d H:i:s', $date_string )->format('Y-m-d');
 $amount = '1000';
 
 $I->fillField('title', $title);
@@ -48,8 +50,8 @@ $I->see('The amount to be raised must be greater than 0.', 'li');
 $I->seeInField('title', $title);
 $I->seeInField('category', $category);
 $I->seeInField('description', $description);
-//$I->fillField('stop_date', $stop_date_form);
-//$I->fillField('amount_to_be_raised', $amount);
+$I->fillField('stop_date', $stop_date_form);
+$I->fillField('amount_to_be_raised', $amount);
 
 $I->dontSeeInDatabase('fundraisers', [
     'title' => $title,
@@ -58,20 +60,12 @@ $I->dontSeeInDatabase('fundraisers', [
     'amount_to_be_raised' => $amount
 ]);
 
-//$I->click('Create');
-
-$I->submitForm('#create_form', array(
-    'title' => $title,
-    'category' => $category,
-    'description' => $description,
-    'stop_date' => $stop_date_form,
-    'amount_to_be_raised' => $amount,
-));
+$I->click('Create');
 
 $I->seeInDatabase('fundraisers', [
     'title' => $title,
-    //'description' => $description,
-    //'amount_to_be_raised' => $amount
+    'description' => $description,
+    'amount_to_be_raised' => $amount
 ]);
 
 $id = $I->grabFromDatabase('fundraisers', 'id', [
