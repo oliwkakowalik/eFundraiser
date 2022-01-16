@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Donation;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use App\Models\Fundraiser;
 use Illuminate\Support\Facades\Auth;
@@ -81,7 +82,14 @@ class FundraiserDonationController extends Controller
      */
     public function edit(Fundraiser $fundraiser, Donation $donation)
     {
+        if($donation->fundraiser!=$fundraiser){
+            return abort(404);
+        }
+
+        return view('donations.edit')->withDonation($donation)->withFundraiser($fundraiser);
+
     }
+
 
     /**
      * Update the specified resource in storage.
@@ -92,6 +100,18 @@ class FundraiserDonationController extends Controller
      */
     public function update(Request $request, Fundraiser $fundraiser, Donation $donation)
     {
+        $this->validate($request, [
+            'description' => 'required',
+            'is_anonymous' => 'required',
+        ]);
+
+        $donation->description = $request->description;
+        $donation->is_anonymous = $request->is_anonymous;
+        $donation->updated_at = \Carbon\Carbon::now()->toDateTimeString();
+
+        $donation->save();
+
+        return redirect()->route('fundraisers.donations.show', [$fundraiser, $donation]);
 
     }
 
@@ -102,6 +122,11 @@ class FundraiserDonationController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function destroy(Fundraiser $fundraiser, Donation $donation)
-    {
+    {     if($donation->fundraiser!=$fundraiser){
+            return abort(404);
+           }
+
+        $donation->delete();
+        return redirect()->route('fundraisers.donations.index', $fundraiser);
     }
 }
