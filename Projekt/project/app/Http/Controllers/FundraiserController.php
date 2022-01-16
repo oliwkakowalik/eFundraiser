@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\Auth;
 
 class FundraiserController extends Controller
 {
+    public function __construct() {
+        $this->middleware('verified')->only('create', 'edit');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -16,7 +20,6 @@ class FundraiserController extends Controller
      */
     public function index()
     {
-        //
         return view('fundraisers.index')->withFundraisers(Fundraiser::all());
     }
 
@@ -79,7 +82,11 @@ class FundraiserController extends Controller
      */
     public function edit(Fundraiser $fundraiser)
     {
-        return view("fundraisers.edit")->withFundraiser($fundraiser)->withCategories(Category::all());
+        if (auth::id() == $fundraiser->user->id) {
+            return view("fundraisers.edit")->withFundraiser($fundraiser)->withCategories(Category::all());
+        } else {
+            abort(403);
+        }
     }
 
     /**
@@ -120,8 +127,12 @@ class FundraiserController extends Controller
      */
     public function destroy(Fundraiser $fundraiser)
     {
+        if(auth::id() != $fundraiser->user->id) {
+            abort(403);
+        }
+
         $fundraiser->delete();
 
-        return redirect()->route('fundraisers');
+        return redirect()->route('fundraisers.index');
     }
 }

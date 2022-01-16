@@ -16,7 +16,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('Toss_a_coin')->withFundraisers(Fundraiser::orderBy('stop_date')->get()->take(1));
-});
+})->name('home');
 
 Route::get('/dashboard', function () {
     $fundraisers = Fundraiser::all();

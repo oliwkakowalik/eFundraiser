@@ -10,9 +10,6 @@
                 <div class="p-6 bg-white border-b border-gray-200">
 
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
-                    <div>
-                        {{$date = \Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $fundraiser->stop_date)->format('Y-m-d')}}
-                    </div>
                     <form method="post" action="{{ route('fundraisers.update', $fundraiser) }}">
 
                         @csrf
