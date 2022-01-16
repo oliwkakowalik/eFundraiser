@@ -67,9 +67,12 @@ class FundraiserDonationController extends Controller
      */
     public function show(Fundraiser $fundraiser, Donation $donation)
     {
+        if($donation->fundraiser!=$fundraiser){
+            return abort(404);
+        }
 
+        return view('donations.show')->withDonation($donation)->withFundraiser($fundraiser);
     }
-
     /**
      * Show the form for editing the specified resource.
      *
