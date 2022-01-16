@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Category;
-
 $I = new AcceptanceTester($scenario ?? null);
 $I->wantTo('have donations page');
 
@@ -12,10 +10,10 @@ $I->click('Log in');
 
 $I->amOnPage('/fundraisers');
 
-$I->click('Na schornisko dla kotków');
+$I->click('Na schronisko dla kotków');
 
 $id = $I->grabFromDatabase('fundraisers', 'id', [
-    'title' => 'Na schornisko dla kotków'
+    'title' => 'Na schronisko dla kotków'
 ]);
 
 $I->seeCurrentUrlEquals('/fundraisers/' . $id);
@@ -31,9 +29,8 @@ $I->click('Make a donation');
 $I->seeCurrentUrlEquals('/fundraisers/' . $id . '/donations/create');
 $I->see('The amount field is required.', 'li');
 $I->see('The description field is required.', 'li');
-$I->see('The is anonymous field is required.', 'li');
 
-$amount = '12.50';
+$amount = '12.5';
 $description = 'Test Description';
 $is_anonymous = '1';
 
@@ -58,7 +55,7 @@ $I->dontSeeInDatabase('donations', [
 
 $I->click('Make a donation');
 
-$I->seeInDatabase('fundraisers', [
+$I->seeInDatabase('donations', [
     'amount' => $amount,
     'description' => $description,
     'is_anonymous' => $is_anonymous,
@@ -73,7 +70,7 @@ $idDonation = $I->grabFromDatabase('donations', 'id', [
 $I->seeCurrentUrlEquals('/fundraisers/' . $id . '/donations/' . $idDonation);
 
 $I->see("Viewing a donation", 'h2');
-$I->see($amount, 'h3');
+$I->see($amount);
 $I->see($description);
 $I->see('Anonymous donation');
 
@@ -81,7 +78,7 @@ $I->amOnPage('/fundraisers/' . $id);
 
 $I->click('Make a donation');
 
-$amount = '18.50';
+$amount = '18.5';
 $description = 'Test Description2';
 $is_anonymous = '0';
 
@@ -97,7 +94,7 @@ $I->dontSeeInDatabase('donations', [
 
 $I->click('Make a donation');
 
-$I->seeInDatabase('fundraisers', [
+$I->seeInDatabase('donations', [
     'amount' => $amount,
     'description' => $description,
     'is_anonymous' => $is_anonymous,
@@ -111,7 +108,16 @@ $idDonation = $I->grabFromDatabase('donations', 'id', [
 
 $I->seeCurrentUrlEquals('/fundraisers/' . $id . '/donations/' . $idDonation);
 
-$userName = Auth::name();
+$userId = $I->grabFromDatabase('donations', 'user_id', [
+    'amount' => $amount,
+    'description' => $description,
+    'is_anonymous' => $is_anonymous,
+]);
+
+$userName = $I->grabFromDatabase('users', 'name', [
+    'id' => $userId
+]);
+
 $I->see("Viewing a donation", 'h2');
 $I->see($amount, 'h3');
 $I->see($description);
@@ -136,13 +142,13 @@ $I->seeCurrentUrlEquals('/fundraisers/' . $id . '/donations/' . $idDonation);
 
 $I->see($updated_description);
 
-$I->dontSeeInDatabase('fundraisers', [
+$I->dontSeeInDatabase('donations', [
     'amount' => $amount,
     'description' => $description,
     'is_anonymous' => $is_anonymous,
 ]);
 
-$I->seeInDatabase('fundraisers', [
+$I->seeInDatabase('donations', [
     'amount' => $amount,
     'description' => $updated_description,
     'is_anonymous' => $is_anonymous,
