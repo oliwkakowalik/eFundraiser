@@ -1,6 +1,8 @@
 <?php
 
+use App\Models\Donation;
 use App\Models\Fundraiser;
+use App\Models\User;
 use Illuminate\Support\Facades\Route;
 use App\Models\Donation;
 
@@ -16,8 +18,11 @@ use App\Models\Donation;
 */
 
 Route::get('/', function () {
-    return view('Toss_a_coin')->withFundraisers(Fundraiser::orderBy('stop_date')->get()->take(1));
-});
+    return view('Toss_a_coin')
+        ->withFundraisers(Fundraiser::orderBy('stop_date')->get()->take(3))
+        ->withDonations(Donation::orderBy('created_at')->get()->take(3))
+        ->withUsers(User::all()->take(3));
+})->name('home');
 
 Route::get('/dashboard', function () {
     $fundraisers = Fundraiser::all();
