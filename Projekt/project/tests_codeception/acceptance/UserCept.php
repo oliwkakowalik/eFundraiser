@@ -44,6 +44,7 @@ $I->seeCurrentUrlEquals('/users');
 
 $my_name = $I->grabFromDatabase('users', 'name', array('name' => 'John Doe'));
 $my_id = $I->grabFromDatabase('users', 'id', array('name' => 'John Doe'));
+$my_email = $I->grabFromDatabase('users', 'email', array('name' => 'John Doe'));
 
 $I->click('View '.$my_name.' profile');
 
@@ -60,4 +61,71 @@ $I->seeCurrentUrlEquals('/fundraisers/'.$fundraiser_id);
 
 $I->amOnPage('/dashboard');
 
-$I->click("Verify account");
+$I->click("Edit your profile");
+$I->seeCurrentUrlEquals('/users/'.$my_id.'/edit');
+
+$I->see("Editing your account", 'h2');
+
+$I->see($my_name);
+$I->see($my_email);
+
+$I->dontSee('The name field is required.');
+$I->dontSee('The email field is required.');
+$I->dontSee('The password field is required.');
+
+$I->fillField('name', '');
+$I->fillField('email', '');
+$I->fillField('password', '');
+
+$I->click('Update');
+$I->seeCurrentUrlEquals('/users/'.$my_id.'/edit');
+
+$I->see('The name field is required.');
+$I->see('The email field is required.');
+$I->see('The password field is required.');
+
+$new_name = 'Joe Doe';
+$new_email = 'joe.doeee@gmail.com';
+$new_password = 'secret123';
+
+$I->fillField('name', $new_name);
+$I->fillField('email', $new_email);
+$I->fillField('password', '123');
+
+$I->click('Update');
+$I->seeCurrentUrlEquals('/users/'.$my_id.'/edit');
+$I->see('The password must be at least 6 characters.');
+
+$I->fillField('name', $new_name);
+$I->fillField('email', $new_email);
+$I->fillField('password', $new_password);
+
+$I->click('Update');
+$I->seeCurrentUrlEquals('/dashboard');
+
+$I->see($new_name);
+$I->see($new_email);
+
+$I->dontSee($my_name);
+$I->dontSee($my_email);
+
+$I->selectOption($new_name, 'Log Out'); //???
+
+$I->amOnPage('/login');
+
+$I->dontSee('These credentials do not match our records.');
+
+$I->fillField('email', $my_email);
+$I->fillField('password', 'secret');
+
+$I->click('Log in');
+$I->seeCurrentUrlEquals('/login');
+
+$I->see('These credentials do not match our records.');
+
+$I->fillField('email', $new_email);
+$I->fillField('password', $new_password);
+
+$I->click('Log in');
+$I->seeCurrentUrlEquals('/dashboard');
+
