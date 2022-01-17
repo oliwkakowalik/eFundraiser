@@ -2,10 +2,12 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\DB;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable implements MustVerifyEmail
@@ -48,5 +50,20 @@ class User extends Authenticatable implements MustVerifyEmail
 
     public function fundraisers(){
         return $this->hasMany(Fundraiser::class);
+    }
+    //suma wplat danego uzytkownika (nalezy wywalac zamiast $query przekazując donations)
+    //to jest z 7 ostatnich dni jesli chcemy ogolnie to nalezy usunac where(created at...)
+    public function scopeSumOfDonations($query){
+        return $query->where('created_at', '>', Carbon::now()->subDays(7))->where('user_id', '=', $this->id)->sum('amount');
+    }
+
+    public static function scopeRanking(){
+        $records = DB::table('donations')->join('users', 'donations.user_id', '=', 'users.id')->groupBy('id')->get(['users.id', DB::raw('sum(donations.amount) as total')])->sortByDesc('total');
+        $ranking = [];
+        foreach($records as $record){
+            $username = DB::table('users')->where('id', '=', $record->id)->value('name');
+            $ranking[] = [$username, $record->total, $record->id];
+        }
+        return $ranking;
     }
 }
