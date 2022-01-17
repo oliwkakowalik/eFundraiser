@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Fundraiser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\Console\Input\Input;
 
 class FundraiserController extends Controller
 {
@@ -20,7 +21,22 @@ class FundraiserController extends Controller
      */
     public function index()
     {
-        return view('fundraisers.index')->withFundraisers(Fundraiser::all());
+        $fundraisers = Fundraiser::all();
+
+        if(isset($_GET["amount_to_be_raised"])){
+            if(isset($_GET['category'])) {
+                $id = Category::where('name', $_GET['category'])->firstOrFail()->id;
+                $fundraisers = $fundraisers->where('category_id', '=', $id);
+            }
+            if($_GET['stop_date'] != '' )
+                $fundraisers = $fundraisers->where('stop_date','<=',$_GET['stop_date']);
+            if($_GET['start_date'] != '' )
+                $fundraisers = $fundraisers->where('start_date','<=',$_GET['start_date']);
+
+            $fundraisers = $fundraisers->where('start_date','<=',$_GET['start_date']);
+        }
+
+        return view('fundraisers.index')->withFundraisers($fundraisers)->withCategories(Category::all());
     }
 
     /**
@@ -135,4 +151,9 @@ class FundraiserController extends Controller
 
         return redirect()->route('fundraisers.index');
     }
+
+    public function filter(){
+        return view('/fundraisers');
+    }
+
 }

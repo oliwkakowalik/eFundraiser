@@ -27,12 +27,33 @@ class FundraiserSeeder extends Seeder
 
         DB::table('fundraisers')->insert([
             'title' => 'Na schronisko dla kotków',
-            'description' => 'Pomóż Nam uratować krakowskie schronisko dla psów **"Łapka"**!',
+            'description' => 'Pomóż Nam uratować krakowskie schronisko dla kotów **"Łapka"**!',
             'user_id' => '1',
             'category_id' => '6',
             'stop_date' => '2022-03-20 15:00:0',
             'amount_to_be_raised' => '10000',
             'amount_raised' => '5450.45',
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+
+        DB::table('fundraisers')->insert([
+            'title' => 'Na schronisko dla królików',
+            'description' => 'Pomóż Nam uratować krakowskie schronisko dla królików **"Łapka"**!',
+            'user_id' => '1',
+            'category_id' => '6',
+            'stop_date' => '2022-09-20 15:00:0',
+            'amount_to_be_raised' => '20000',
+            'amount_raised' => '2000.45',
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString()
+        ]);
+        DB::table('fundraisers')->insert([
+            'title' => 'Na melanż',
+            'description' => 'Poratuj kierowniku **"PLS"**!',
+            'user_id' => '1',
+            'category_id' => '9',
+            'stop_date' => '2022-09-20 15:00:0',
+            'amount_to_be_raised' => '250000',
+            'amount_raised' => '240000',
             'created_at' => \Carbon\Carbon::now()->toDateTimeString()
         ]);
 
