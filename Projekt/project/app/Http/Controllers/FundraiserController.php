@@ -25,6 +25,9 @@ class FundraiserController extends Controller
          */
         $fundraisers = Fundraiser::select("*");
 
+        if($request->input('filter') == 'all' ){
+            return view('fundraisers.index')->withFundraisers($fundraisers->get())->withCategories(Category::all());
+        }
         if($request->has('amount_to_be_raised') ){
             session(['amount_to_be_raised' => $request->input('amount_to_be_raised')]);
             session(['category' => $request->input('category')]);
