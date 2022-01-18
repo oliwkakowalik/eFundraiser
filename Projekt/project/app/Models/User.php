@@ -51,20 +51,28 @@ class User extends Authenticatable implements MustVerifyEmail
     public function fundraisers(){
         return $this->hasMany(Fundraiser::class);
     }
-    //suma wplat danego uzytkownika (nalezy wywalac zamiast $query przekazując donations)
-    //to jest z 7 ostatnich dni jesli chcemy ogolnie to nalezy usunac where(created at...)
-    //where('created_at', '>', Carbon::now()->subDays(7)) - zeby bylo z ostatniego tygodnia
+
     public function scopeSumOfDonations($query){
         return $query->where('user_id', '=', $this->id)->sum('amount');
     }
 
     public static function scopeRanking(){
-        $records = DB::table('donations')->join('users', 'donations.user_id', '=', 'users.id')->groupBy('id')->get(['users.id', DB::raw('sum(donations.amount) as total')])->sortByDesc('total');
+        $records = DB::table('donations')->join('users', 'donations.user_id', '=', 'users.id')
+            ->groupBy('id')->get(['users.id', DB::raw('sum(donations.amount) as total')])->sortByDesc('total');
         $ranking = [];
         foreach($records as $record){
             $username = DB::table('users')->where('id', '=', $record->id)->value('name');
             $ranking[] = [$username, $record->total, $record->id];
         }
         return $ranking;
+    }
+
+    public function isSpecial(){
+        if($this->scopeSumOfDonations(DB::table('donations')->where('created_at', '>', Carbon::now()->subDays(7))) > 50) {
+        return "orange";
+        }
+        else{
+        return "black";
+        }
     }
 }

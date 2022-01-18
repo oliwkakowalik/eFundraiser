@@ -1,4 +1,7 @@
-<?php use \App\Models\Donation; ?>
+<?php
+use \App\Models\Donation;
+use \App\Models\User;
+?>
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -21,7 +24,7 @@
                                 <dt class="text-sm font-medium text-gray-500">
                                     Created by
                                 </dt>
-                                <a href="{{ route('users.show', $fundraiser->user) }}" class="text-indigo-600
+                                <a style="color: {{User::findOrFail($fundraiser->user_id)->isSpecial()}}" href="{{ route('users.show', $fundraiser->user) }}" class="text-indigo-600
                                     hover:text-indigo-900"><x-markdown>{{ $fundraiser->user->name }}</x-markdown></a>
                             </div>
                             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
