@@ -21,7 +21,7 @@
                                 <dt class="text-sm font-medium text-gray-500">
                                     name:
                                 </dt>
-                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                <dd style="color:{{auth()->user()->isSpecial()}}" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     {{auth()->user()->name}}
                                 </dd>
                             </div>

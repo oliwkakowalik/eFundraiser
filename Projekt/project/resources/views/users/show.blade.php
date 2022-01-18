@@ -1,3 +1,6 @@
+<?php
+use App\Models\User;
+?>
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -11,7 +14,7 @@
 
                 <divfundraisers class="bg-white shadow overflow-hidden sm:rounded-lg">
                     <div class="px-4 py-5 sm:px-6">
-                        <h3 class="text-lg leading-6 font-medium text-gray-900">
+                        <h3 style="color:{{$user->isSpecial()}}"class="text-lg leading-6 font-medium text-900">
                             {{ $user->name }}
                         </h3>
                     </div>

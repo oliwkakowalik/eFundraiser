@@ -4,7 +4,7 @@ use App\Models\User;
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Here you can see ranking of all our users!') }}
+            {{ __('Here you can see ranking of our users, who decided to support fundraisers!') }}
         </h2>
     </x-slot>
     <div class="py-12">
@@ -32,7 +32,7 @@ use App\Models\User;
                         @foreach(User::scopeRanking() as $user)
                             <tr>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-500">{{ $user[0] }}</div>
+                                    <div style="color: {{User::findOrFail($user[2])->isSpecial()}}" class="text-sm text-500">{{ $user[0] }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="text-sm text-gray-500">{{ $user[1] }}</div>

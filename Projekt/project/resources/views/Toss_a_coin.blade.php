@@ -103,7 +103,7 @@ use App\Models\User;
                 @foreach(array_slice(User::scopeRanking($donations), 0, 3) as $user)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <a href="{{ route('users.show', $user[2]) }}" class="text-indigo-600
+                            <a style="color: {{User::findOrFail($user[2])->isSpecial()}}" href="{{ route('users.show', $user[2]) }}" class="text-indigo-600
                                     hover:text-indigo-900">{{ $user[0] }}</a>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
@@ -144,7 +144,7 @@ use App\Models\User;
                                     hover:text-indigo-900">{{ $donation->fundraiser->title }}</a>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <a href="{{ route('users.show', $donation->user) }}" class="text-indigo-600
+                            <a style="color: {{$donation->user->isSpecial()}}" href="{{ route('users.show', $donation->user) }}" class="text-indigo-600
                                     hover:text-indigo-900">{{ $donation->user->name }}</a>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
