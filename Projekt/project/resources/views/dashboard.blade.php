@@ -49,6 +49,7 @@
                             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt class="text-sm font-medium text-gray-500">
                                     Donation:
+                                </dt>
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     @foreach($donations as $donation)
                                         @if( auth()->user()->id == $donation->user_id)
@@ -61,6 +62,7 @@
                             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt class="text-sm font-medium text-gray-500">
                                     Verified:
+                                </dt>
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     @if( isset(auth()->user()->email_verified_at))
                                     <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
@@ -91,11 +93,24 @@
                                 </x-button>
                             </form>
                         </div>
+
+                        <div class="bg-white px-4 pb-5 flex items-center justify-end mt-4">
+
+                            <form method="post" action="{{route('users.destroy', auth()->user())}}">
+
+                                @csrf
+                                @method("DELETE")
+
+                                <x-button class="ml-4">
+                                    {{ __('Delete your profile') }}
+                                </x-button>
+                            </form>
+                        </div>
                     @endauth
                 </div>
             </div>
         </div>
     </div>
 </x-app-layout>
-</dt>
+
 

@@ -1,4 +1,6 @@
 <?php
+
+
 $I = new AcceptanceTester($scenario ?? null);
 
 $I->wantTo('have users page');
@@ -109,23 +111,21 @@ $I->see($new_email);
 $I->dontSee($my_name);
 $I->dontSee($my_email);
 
-$I->selectOption($new_name, 'Log Out'); //???
+
+$I->click('Delete your profile');
+$I->seeCurrentUrlEquals('/');
+
+$I->click('Users');
+$I->seeCurrentUrlEquals('/users');
+
+$I->dontSee($new_name);
 
 $I->amOnPage('/login');
-
-$I->dontSee('These credentials do not match our records.');
-
-$I->fillField('email', $my_email);
+$I->fillField('email', $new_email);
 $I->fillField('password', 'secret');
 
 $I->click('Log in');
-$I->seeCurrentUrlEquals('/login');
 
 $I->see('These credentials do not match our records.');
 
-$I->fillField('email', $new_email);
-$I->fillField('password', $new_password);
-
-$I->click('Log in');
-$I->seeCurrentUrlEquals('/dashboard');
-
+$I->haveInDatabase('users', [ 'name' => $new_name]);
