@@ -53,8 +53,9 @@ class User extends Authenticatable implements MustVerifyEmail
     }
     //suma wplat danego uzytkownika (nalezy wywalac zamiast $query przekazując donations)
     //to jest z 7 ostatnich dni jesli chcemy ogolnie to nalezy usunac where(created at...)
+    //where('created_at', '>', Carbon::now()->subDays(7)) - zeby bylo z ostatniego tygodnia
     public function scopeSumOfDonations($query){
-        return $query->where('created_at', '>', Carbon::now()->subDays(7))->where('user_id', '=', $this->id)->sum('amount');
+        return $query->where('user_id', '=', $this->id)->sum('amount');
     }
 
     public static function scopeRanking(){

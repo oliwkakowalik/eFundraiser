@@ -1,3 +1,9 @@
+<?php
+use Illuminate\Support\Facades\DB;
+use App\Models\Donation;
+use App\Models\User;
+
+?>
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
@@ -94,14 +100,14 @@
                 </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                @foreach($users as $user)
+                @foreach(array_slice(User::scopeRanking($donations), 0, 3) as $user)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <a href="{{ route('users.show', $user) }}" class="text-indigo-600
-                                    hover:text-indigo-900">{{ $user->name }}</a>
+                            <a href="{{ route('users.show', $user[2]) }}" class="text-indigo-600
+                                    hover:text-indigo-900">{{ $user[0] }}</a>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">Total amount (calculate)</div>
+                            <div class="text-sm text-gray-900">{{$user[1]}}</div>
                         </td>
                     </tr>
                 @endforeach
@@ -131,7 +137,7 @@
                 </tr>
                 </thead>
                 <tbody class="bg-white divide-y divide-gray-200">
-                @foreach($donations as $donation)
+                @foreach(Donation::all()->sortBy('created_at')->take(3) as $donation)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <a href="{{ route('fundraisers.show', $donation->fundraiser) }}" class="text-indigo-600

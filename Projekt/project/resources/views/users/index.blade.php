@@ -40,7 +40,7 @@ use App\Models\User;
                                 <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                     <form method="get" action=" @if( isset($_SESSION['logged_user_id']) && $user[2] == $_SESSION['logged_user_id'] ) {{ route('dashboard', $user[2]) }} @else {{ route('users.show', $user[2]) }} @endif">
                                         <x-button class="ml-4">
-                                            {{ __('View ') }} {{$user[0]}} {{__('profile')}}
+                                            {{ __('View ') }} {{$user[0]}}'s {{__('profile')}}
                                         </x-button>
                                     </form>
                                 </td>
