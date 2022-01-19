@@ -32,6 +32,16 @@
         <a href="{{ route('users.index') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Users</a>
 
         <a href="{{ route('fundraisers.index') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Fundraisers</a>
+
+        <br>
+        <br>
+
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+
     </div>
 
 
