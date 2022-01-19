@@ -58,7 +58,7 @@ class RegisteredUserController extends Controller
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'password' => ['required', 'confirmed', 'min:6'],
         ]);
 
         $user = User::create([
@@ -67,7 +67,7 @@ class RegisteredUserController extends Controller
             'password' => Hash::make($request->password),
         ]);
 
-        event(new Registered($user));
+       // event(new Registered($user));
 
         Auth::login($user);
 
@@ -105,5 +105,11 @@ class RegisteredUserController extends Controller
 
         return redirect(RouteServiceProvider::HOME);
     }
+    public function destroy(User $user)
+    {
+        Auth::logout();
 
+        $user->delete();
+
+        return redirect('/')->with('status', 'Profile has been deleted successfully!');    }
 }
