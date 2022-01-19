@@ -1,4 +1,7 @@
-<?php use \App\Models\Donation; ?>
+<?php
+use \App\Models\Donation;
+use \App\Models\User;
+?>
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -23,8 +26,8 @@
                                 </dt>
                                 @if( !isset($user->deleted_at))
                                     User has deleted their's account.
-                                @else
-                                    <a href="{{ route('users.show', $fundraiser->user) }}" class="text-indigo-600
+                                @else=======
+                                <a style="color: {{User::findOrFail($fundraiser->user_id)->isSpecial()}}" href="{{ route('users.show', $fundraiser->user) }}" class="text-indigo-600
                                     hover:text-indigo-900"><x-markdown>{{ $fundraiser->user->name }}</x-markdown></a>
                                 @endif
                             </div>

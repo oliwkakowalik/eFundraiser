@@ -11,6 +11,10 @@ use Illuminate\Support\Facades\Auth;
 
 class FundraiserDonationController extends Controller
 {
+    public function __construct() {
+        $this->middleware('auth')->only('create', 'edit');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -83,7 +87,11 @@ class FundraiserDonationController extends Controller
     public function edit(Fundraiser $fundraiser, Donation $donation)
     {
         if($donation->fundraiser!=$fundraiser){
-            return abort(404);
+            abort(404);
+        }
+
+        if(auth::id() != $donation->user->id) {
+            abort(403);
         }
 
         return view('donations.edit')->withDonation($donation)->withFundraiser($fundraiser);
@@ -121,10 +129,14 @@ class FundraiserDonationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Fundraiser $fundraiser, Donation $donation)
-    {     if($donation->fundraiser!=$fundraiser){
+    public function destroy(Fundraiser $fundraiser, Donation $donation) {
+        if($donation->fundraiser!=$fundraiser){
             return abort(404);
-           }
+        }
+
+        if(auth::id() != $donation->user->id) {
+            abort(403);
+        }
 
         $donation->delete();
         return redirect()->route('fundraisers.donations.index', $fundraiser);

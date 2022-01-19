@@ -1,8 +1,9 @@
 <?php
 
-use App\Models\Fundraiser;
-use Illuminate\Support\Facades\Route;
 use App\Models\Donation;
+use App\Models\Fundraiser;
+use App\Models\User;
+use Illuminate\Support\Facades\Route;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,13 +17,15 @@ use App\Models\Donation;
 */
 
 Route::get('/', function () {
-    return view('Toss_a_coin')->withFundraisers(Fundraiser::orderBy('stop_date')->get()->take(1));
-});
+    return view('Toss_a_coin')
+        ->withFundraisers(Fundraiser::orderBy('stop_date')->get()->take(3))
+        ->withDonations(Donation::all());
+})->name('home');
 
 Route::get('/dashboard', function () {
-    $fundraisers = Fundraiser::all();
-    $donations = Donation::all();
-    return view('dashboard')->withFundraisers($fundraisers)->withDonations($donations);
+    return view('dashboard')
+        ->withFundraisers(Fundraiser::all())
+        ->withDonations(Donation::all());
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';

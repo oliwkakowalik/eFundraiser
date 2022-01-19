@@ -21,7 +21,7 @@
                                 <dt class="text-sm font-medium text-gray-500">
                                     name:
                                 </dt>
-                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                <dd style="color:{{auth()->user()->isSpecial()}}" class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     {{auth()->user()->name}}
                                 </dd>
                             </div>
@@ -53,6 +53,7 @@
                                 <dt class="text-sm font-medium text-gray-500">
                                     Donations:
                                 </dt>
+
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     @foreach($donations as $donation)
                                         @if( auth()->user()->id == $donation->user_id)
@@ -88,6 +89,7 @@
                                     @endif
                                 </dd>
                             </div>
+                            @if(auth()->user()->email_verified_at == null)
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                                 <form method="get" action="{{ route('verification.notice') }}">
                                     <x-button class="ml-4">
@@ -95,6 +97,7 @@
                                     </x-button>
                                 </form>
                             </td>
+                            @endif
                         </dl>
                     </div>
                     @auth

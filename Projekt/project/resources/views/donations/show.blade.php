@@ -1,5 +1,7 @@
 <?php
-use Illuminate\Support\Facades\Auth;use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use \App\Models\User;
 ?>
 <x-app-layout>
     <x-slot name="header">
@@ -39,7 +41,8 @@ use Illuminate\Support\Facades\Auth;use Illuminate\Support\Facades\DB;
                                     @elseif($donation->is_anonymous == 1)
                                             Anonymous donation
                                     @else
-                                        {{ $donation->user->name }}
+                                        <a style="color: {{User::findOrFail($donation->user_id)->isSpecial()}}" href="{{ route('users.show', $donation->user) }}" class="text-indigo-600
+                                    hover:text-indigo-900"><x-markdown>{{ $donation->user->name }}</x-markdown></a>
                                     @endif
                                 </dd>
                             </div>
