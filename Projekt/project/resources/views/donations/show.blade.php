@@ -36,7 +36,7 @@ use \App\Models\User;
                                     Donator
                                 </dt>
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                    @if( !isset($donation->user->name) )
+                                    @if( !isset($donation->user) )
                                         User has deleted their's account.
                                     @elseif($donation->is_anonymous == 1)
                                             Anonymous donation

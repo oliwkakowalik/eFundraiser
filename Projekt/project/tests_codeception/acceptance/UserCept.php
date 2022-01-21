@@ -1,16 +1,10 @@
 <?php
 
-
 $I = new AcceptanceTester($scenario ?? null);
 
-$I->wantTo('have users page');
+$I->wantTo('check functionalities connected to users');
 
 $I->amOnPage('/');
-$I->click('Users');
-$I->seeCurrentUrlEquals('/users');
-
-
-$I->see('List of users', 'h2');
 
 $I->click('Log in');
 $I->amOnPage('/login');
@@ -22,46 +16,11 @@ $I->click('Log in');
 
 $I->seeCurrentUrlEquals('/dashboard');
 
-$I->click('Users');
-$I->seeCurrentUrlEquals('/users');
-
-$I->see('List of users', 'h2');
-
-$name = $I->grabFromDatabase('users', 'name', array('name' => 'Olga Śmistek'));
-$id = $I->grabFromDatabase('users', 'id', array('name' => 'Olga Śmistek'));
-$email = $I->grabFromDatabase('users', 'email', array('name' => 'Olga Śmistek'));
-
-$I->see($name);
-$I->click('View '.$name.' profile');
-
-$I->seeCurrentUrlEquals('/users/'.$id);
-
-$I->see($name."'s account", 'h2');
-
-
-$I->see($email);
-
-$I->click('Users');
-$I->seeCurrentUrlEquals('/users');
-
 $my_name = $I->grabFromDatabase('users', 'name', array('name' => 'John Doe'));
 $my_id = $I->grabFromDatabase('users', 'id', array('name' => 'John Doe'));
 $my_email = $I->grabFromDatabase('users', 'email', array('name' => 'John Doe'));
 
-$I->click('View '.$my_name.' profile');
-
-$I->seeCurrentUrlEquals('/dashboard');
-
-$I->see($my_name."'s account");
-
-$title = $I->grabFromDatabase('fundraisers', 'title', array('user_id' => $my_id));
-$fundraiser_id = $I->grabFromDatabase('fundraisers', 'id', array('user_id' => $my_id));
-$I->see($my_name."'s account");
-
-$I->click($title);
-$I->seeCurrentUrlEquals('/fundraisers/'.$fundraiser_id);
-
-$I->amOnPage('/dashboard');
+$I->see($my_name."'s account", 'h2');
 
 $I->click("Edit your profile");
 $I->seeCurrentUrlEquals('/users/'.$my_id.'/edit');
@@ -112,20 +71,79 @@ $I->dontSee($my_name);
 $I->dontSee($my_email);
 
 
-$I->click('Delete your profile');
+/*$I->click('Log Out');
 $I->seeCurrentUrlEquals('/');
+
+$I->click('Log in');
+$I->amOnPage('/login');
+$I->dontSee('These credentials do not match our records.');
+
+$I->fillField('email', $my_email);
+$I->fillField('password', 'secret');
+
+$I->click('Log in');
+$I->seeCurrentUrlEquals('/login');
+$I->see('These credentials do not match our records.');
+
+$I->fillField('email', $new_email);
+$I->fillField('password', $new_password);
+
+$I->seeCurrentUrlEquals('/dashboard');
+*/
+
+$I->click('Fundraisers');
+$I->seeCurrentUrlEquals('/fundraisers');
+$fundraiser = $I->grabFromDatabase('fundraisers', 'title', array('title' => 'Na schronisko dla piesków'));
+$fundraiser_id = $I->grabFromDatabase('fundraisers', 'id', array('title' => 'Na schronisko dla piesków'));
+
+$I->click($fundraiser);
+$I->seeCurrentUrlEquals("/fundraisers/".$fundraiser_id);
+$I->see($fundraiser);
+$I->see($new_name);
+
+$donation_id = $I->grabFromDatabase('donations', 'id', array('user_id' => $my_id));
+$donation_amount = $I->grabFromDatabase('donations', 'amount', array('user_id' => $my_id));
+$donation_description = $I->grabFromDatabase('donations', 'description', array('user_id' => $my_id));
+
+$I->click(intval($donation_amount)."- ".$donation_description);
+$I->seeCurrentUrlEquals("/fundraisers/".$fundraiser_id."/donations/".$donation_id);
+
+$I->see($new_name);
 
 $I->click('Users');
 $I->seeCurrentUrlEquals('/users');
 
-$I->dontSee($new_name);
+$I->see('Here you can see ranking of our users, who decided to support fundraisers!', 'h2');
+$I->see($new_name);
+$I->click('View '.$new_name."'s profile");
+$I->seeCurrentUrlEquals('/dashboard');
 
-$I->amOnPage('/login');
-$I->fillField('email', $new_email);
-$I->fillField('password', 'secret');
+$I->click("Delete your profile");
+
+$I->seeCurrentUrlEquals('/');
+$I->see('Profile has been deleted successfully!');
 
 $I->click('Log in');
 
+$I->amOnPage('/login');
+$I->fillField('email', $new_email);
+$I->fillField('password', $new_password);
+
+$I->click('Log in');
+$I->seeCurrentUrlEquals('/login');
+
 $I->see('These credentials do not match our records.');
 
-$I->haveInDatabase('users', [ 'name' => $new_name]);
+$I->amOnPage('/users');
+$I->dontSee($new_name);
+
+
+$I->amOnPage("/fundraisers/".$fundraiser_id);
+$I->dontSee($new_name);
+$I->see('User has deleted their\'s account.');
+
+$I->click(intval($donation_amount)."- ".$donation_description);
+$I->seeCurrentUrlEquals("/fundraisers/".$fundraiser_id."/donations/".$donation_id);
+
+$I->dontSee($new_name);
+$I->see('User has deleted their\'s account.');

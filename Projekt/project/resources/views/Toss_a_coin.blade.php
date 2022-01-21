@@ -178,8 +178,12 @@ use App\Models\User;
                                     hover:text-indigo-900">{{ $donation->fundraiser->title }}</a>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
+                            @if( !isset($donation->user) )
+                                User has deleted their's account.
+                            @else
                             <a style="color: {{$donation->user->isSpecial()}}" href="{{ route('users.show', $donation->user) }}" class="text-indigo-600
-                                    hover:text-indigo-900">{{ $donation->user->name }}</a>
+                                     hover:text-indigo-900">{{ $donation->user->name }}</a>
+                            @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div>{{ $donation->amount }}</div>
