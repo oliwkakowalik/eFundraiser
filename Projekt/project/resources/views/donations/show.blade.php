@@ -1,6 +1,5 @@
 <?php
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use \App\Models\User;
 ?>
 <x-app-layout>
@@ -67,7 +66,7 @@ use \App\Models\User;
                                         {{ $donation->created_at }}
                                 </dd>
                             </div>
-                            @if(Auth::id() == DB::table('donations')->where('id', $donation->id)->value('user_id'))
+                            @if(Auth::id() == $donation->user->id)
                             <div class="bg-white px-4 pb-5 flex items-center justify-end mt-4">
 
                                 <form method="get" action="{{ route('fundraisers.donations.edit', [$fundraiser, $donation]) }}">

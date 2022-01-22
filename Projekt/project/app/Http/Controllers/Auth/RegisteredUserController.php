@@ -36,8 +36,10 @@ class RegisteredUserController extends Controller
 
         $fundraisers = Fundraiser::all();
         $donations = Donation::all();
+        $user_donations = Donation::all()->where('user_id', '=', $user->id)->where('is_anonymous', '=', '0');
+        $user_fundraisers = Fundraiser::all()->where('user_id', '=', $user->id);
 
-        return view('users.show')->withUser($user)->withFundraisers($fundraisers)->withDonations($donations);
+        return view('users.show', ["user_donations" => $user_donations, "user_fundraisers" => $user_fundraisers])->withUser($user)->withFundraisers($fundraisers)->withDonations($donations);
     }
 
     public function create()

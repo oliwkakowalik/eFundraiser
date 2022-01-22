@@ -108,7 +108,7 @@ use App\Models\User;
                     </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach(array_slice(User::scopeRanking($donations), 0, 3) as $user)
+                    @foreach($best_3_users as $user)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <a style="color: {{User::findOrFail($user[2])->isSpecial()}}" href="{{ route('users.show', $user[2]) }}" class="text-indigo-600
@@ -145,7 +145,7 @@ use App\Models\User;
                     </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach(Donation::all()->sortBy('created_at')->take(3) as $donation)
+                    @foreach($latest_3_donations as $donation)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <a href="{{ route('fundraisers.show', $donation->fundraiser) }}" class="text-indigo-600

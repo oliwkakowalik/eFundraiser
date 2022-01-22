@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Fundraiser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use \App\Models\Donation;
 
 class FundraiserController extends Controller
 {
@@ -95,8 +96,8 @@ class FundraiserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Fundraiser $fundraiser)
-    {
-        return view('fundraisers.show')->withFundraiser($fundraiser);
+    {   $latest_5_donations = Donation::orderBy('created_at')->where('fundraiser_id', $fundraiser->id)->get()->take(5);
+        return view('fundraisers.show', ["latest_5_donations" => $latest_5_donations])->withFundraiser($fundraiser);
     }
 
     /**

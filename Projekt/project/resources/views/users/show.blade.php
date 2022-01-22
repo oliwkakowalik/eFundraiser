@@ -33,14 +33,12 @@ use App\Models\User;
                                     created fundraisers:
                                 </dt>
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                    @foreach($fundraisers as $fundraiser)
-                                        @if( $user->id == $fundraiser->user_id)
+                                    @foreach($user_fundraisers as $fundraiser)
                                             <a href="{{ route('fundraisers.show', $fundraiser) }}">{{$fundraiser->title}}</a>
                                             <br>
-                                        @endif
                                     @endforeach
 
-                                    @if( count($fundraisers->where('user_id', '=', $user->id)) == 0)
+                                    @if($user_fundraisers->isEmpty())
                                         none
                                     @endif
                                 </dd>
@@ -49,13 +47,11 @@ use App\Models\User;
                                 <dt class="text-sm font-medium text-gray-500">
                                     Donations:
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                    @foreach($donations as $donation)
-                                        @if( $user->id == $donation->user_id)
-                                            <a href="{{ route('fundraisers.donations.show', [\App\Models\Fundraiser::find($donation->fundraiser_id), $donation]) }}">{{$donation->amount}}</a>
+                                    @foreach($user_donations as $donation)
+                                            <a href="{{ route('fundraisers.donations.show', [$donation->fundraiser, $donation]) }}">{{$donation->amount}}</a>
                                             <br>
-                                        @endif
                                     @endforeach
-                                    @if( count($donations->where('user_id', '=', $user->id)) == 0)
+                                    @if($user_donations->isEmpty())
                                          none
                                     @endif
                                 </dd>
@@ -64,7 +60,7 @@ use App\Models\User;
                                 <dt class="text-sm font-medium text-gray-500">
                                     Sum of donations:
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                    {{ $donations->where('user_id', '=', $user->id)->sum('amount') }}
+                                    {{ $user->scopeSumOfDonations($donations) }}
                                 </dd>
                             </div>
                         </dl>
