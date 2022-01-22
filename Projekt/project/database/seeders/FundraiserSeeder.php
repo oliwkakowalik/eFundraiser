@@ -104,8 +104,8 @@ class FundraiserSeeder extends Seeder
         ]);
 
         DB::table('fundraisers')->insert([
-            'title' => 'Odbudowa domu po udeżeniu meteorytu',
-            'description' => 'Zbiórka na odbudowe domu po udeżeniu meteorytu.',
+            'title' => 'Odbudowa domu po uderzeniu meteorytu',
+            'description' => 'Zbiórka na odbudowe domu po uderzeniu meteorytu.',
             'user_id' => '16',
             'category_id' => '2',
             'stop_date' => '2022-05-02 23:59:59',

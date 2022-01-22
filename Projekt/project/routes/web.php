@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('Toss_a_coin')
-        ->withFundraisers(Fundraiser::orderBy('stop_date')->get()->take(3))
+        ->withFundraisers(Fundraiser::orderBy('created_at')->get()->take(3))
         ->withDonations(Donation::all());
 })->name('home');
 
