@@ -137,8 +137,13 @@ use App\Models\User;
                 @foreach(array_slice(User::scopeRanking($donations), 0, 3) as $user)
                     <tr>
                         <td class="px-6 py-4 whitespace-nowrap">
+                            @if(Auth::id() == $user[2])
+                                <a style="color: {{User::findOrFail($user[2])->isSpecial()}}" href="{{ route('dashboard') }}" class="text-indigo-600
+                                    hover:text-indigo-900">{{ $user[0] }}</a>
+                            @else
                             <a style="color: {{User::findOrFail($user[2])->isSpecial()}}" href="{{ route('users.show', $user[2]) }}" class="text-indigo-600
                                     hover:text-indigo-900">{{ $user[0] }}</a>
+                            @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div class="text-sm text-gray-900">{{$user[1]}}</div>
@@ -180,6 +185,9 @@ use App\Models\User;
                         <td class="px-6 py-4 whitespace-nowrap">
                             @if( !isset($donation->user) )
                                 User has deleted their's account.
+                            @elseif(Auth::id() == $donation->user->id)
+                            <a style="color: {{$donation->user->isSpecial()}}" href="{{ route('dashboard') }}" class="text-indigo-600
+                                 hover:text-indigo-900">{{ $donation->user->name }}</a>
                             @else
                             <a style="color: {{$donation->user->isSpecial()}}" href="{{ route('users.show', $donation->user) }}" class="text-indigo-600
                                      hover:text-indigo-900">{{ $donation->user->name }}</a>
