@@ -97,10 +97,7 @@ class FundraiserController extends Controller
      */
     public function show(Fundraiser $fundraiser)
     {
-        $is_closed = false;
-        if ($fundraiser->stop_date < \Carbon\Carbon::now()->toDateTimeString()) {
-            $is_closed = true;
-        }
+        $is_closed = $fundraiser->stop_date < \Carbon\Carbon::now()->toDateTimeString();
         return view('fundraisers.show', ['is_closed' => $is_closed])->withFundraiser($fundraiser);
     }
 
@@ -112,7 +109,9 @@ class FundraiserController extends Controller
      */
     public function edit(Fundraiser $fundraiser)
     {
-        if (auth::id() == $fundraiser->user->id) {
+        $is_owner = auth::id() == $fundraiser->user->id;
+        $is_closed = $fundraiser->stop_date < \Carbon\Carbon::now()->toDateTimeString();
+        if ($is_owner and !$is_closed) {
             return view("fundraisers.edit")->withFundraiser($fundraiser)->withCategories(Category::all());
         } else {
             abort(403);

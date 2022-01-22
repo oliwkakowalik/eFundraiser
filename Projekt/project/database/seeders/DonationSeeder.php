@@ -56,7 +56,7 @@ class DonationSeeder extends Seeder
             'is_anonymous' => '0',
             'user_id' => '3',
             'fundraiser_id' => '9',
-            'created_at' => \Carbon\Carbon::now()->toDateTimeString()
+            'created_at' => '2021-10-24 19:00:0'
         ]);
 
         DB::table('donations')->insert([
@@ -105,7 +105,7 @@ class DonationSeeder extends Seeder
         ]);
 
         DB::table('donations')->insert([
-            'amount' => '40000',
+            'amount' => '500',
             'description' => 'Powodzenia',
             'is_anonymous' => '0',
             'user_id' => '10',
@@ -155,7 +155,7 @@ class DonationSeeder extends Seeder
             'is_anonymous' => '0',
             'user_id' => '17',
             'fundraiser_id' => '10',
-            'created_at' => \Carbon\Carbon::now()->toDateTimeString()
+            'created_at' => "2022-11-04 19:00:0"
         ]);
 
         DB::table('donations')->insert([
