@@ -26,6 +26,9 @@ use \App\Models\User;
                                 </dt>
                                 @if( !isset($fundraiser->user) )
                                     User has deleted their's account.
+                                @elseif(Auth::id() == $fundraiser->user->id)
+                                    <a style="color: {{User::findOrFail($fundraiser->user_id)->isSpecial()}}" href="{{ route('dashboard')}}" class="text-indigo-600
+                                    hover:text-indigo-900"><x-markdown>{{ $fundraiser->user->name }}</x-markdown></a>
                                 @else
                                 <a style="color: {{User::findOrFail($fundraiser->user_id)->isSpecial()}}" href="{{ route('users.show', $fundraiser->user) }}" class="text-indigo-600
                                     hover:text-indigo-900"><x-markdown>{{ $fundraiser->user->name }}</x-markdown></a>
