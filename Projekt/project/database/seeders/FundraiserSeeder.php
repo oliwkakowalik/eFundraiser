@@ -17,7 +17,7 @@ class FundraiserSeeder extends Seeder
         DB::table('fundraisers')->insert([
             'title' => 'Na schronisko dla piesków',  // do usuniecia
             'description' => 'Zbiórka na schronisko dla psów **"Kundelek"**!',
-            'user_id' => '2',
+            'user_id' => '1',
             'category_id' => '6',
             'stop_date' => '2022-02-20 15:00:0',
             'amount_to_be_raised' => '5000',
@@ -33,7 +33,7 @@ class FundraiserSeeder extends Seeder
             'stop_date' => '2022-02-17 15:00:0',
             'amount_to_be_raised' => '10000',
             'amount_raised' => '5450.45',
-            'created_at' => '2022-01-06 13:00:0'
+            'created_at' => \Carbon\Carbon::now()->toDateTimeString()
         ]);
 
         DB::table('fundraisers')->insert([
