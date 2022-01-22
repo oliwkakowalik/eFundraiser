@@ -19,13 +19,17 @@ class FundraiserController extends Controller
      */
     public function index(Request $request)
     {
-      /*  $this->validate($request, [
-            'amount_to_be_raised' => 'numeric|min:0|max:99999999'   do ogarnięcia
+        $this->validate($request, [
+            'amount_to_be_raised' => 'numeric|min:0|max:99999999'
         ]);
-         */
+
         $fundraisers = Fundraiser::select("*");
 
         if($request->input('filter') == 'all' ){
+            session(['amount_to_be_raised' => $request->input('amount_to_be_raised')]);
+            session(['category' => $request->input('category')]);
+            session(['stop_date' => $request->input('stop_date')]);
+            session(['start_date' => $request->input('start_date')]);
             return view('fundraisers.index')->withFundraisers($fundraisers->get())->withCategories(Category::all());
         }
         if($request->has('amount_to_be_raised') ){
