@@ -20,7 +20,7 @@ class FundraiserController extends Controller
     public function index(Request $request)
     {
         $this->validate($request, [
-            'amount_to_be_raised' => 'numeric|min:0|max:99999999'
+            'amount_to_be_raised' => 'numeric|nullable|min:0|max:99999999'
         ]);
 
         $fundraisers = Fundraiser::select("*");
