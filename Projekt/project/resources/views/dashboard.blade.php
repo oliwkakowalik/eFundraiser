@@ -36,7 +36,7 @@
                             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt class="text-sm font-medium text-gray-500">
 
-                                    created fundraisers:
+                                    Fundraisers you created:
                                 </dt>
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     @foreach($user_fundraisers as $fundraiser)
@@ -50,7 +50,7 @@
                             </div>
                             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt class="text-sm font-medium text-gray-500">
-                                    Donations:
+                                    Your donations:
                                 </dt>
 
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
@@ -65,9 +65,32 @@
                             </div>
                             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt class="text-sm font-medium text-gray-500">
-                                    Sum of donations:
+                                    Your anonymous donations:
+                                </dt>
+
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                    {{ auth()->user()->scopeSumOfDonations($donations) }}                                </dd>
+                                    @foreach($user_anonymous_donations as $donation)
+                                        <a href="{{ route('fundraisers.donations.show', [$donation->fundraiser, $donation]) }}">{{$donation->amount}}</a>
+                                        <br>
+                                    @endforeach
+                                    @if($user_donations->isEmpty())
+                                        none
+                                    @endif
+                                </dd>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt class="text-sm font-medium text-gray-500">
+                                    Sum of your non-anonymous donations:
+                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    {{ auth()->user()->scopeSumOfDonations($donations) }}
+                                </dd>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt class="text-sm font-medium text-gray-500">
+                                    Sum of all your donations (we include even your anonymous donations, don't worry, only you can see that!):
+                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    {{ $sum_donations }}
+                                </dd>
                             </div>
                             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt class="text-sm font-medium text-gray-500">

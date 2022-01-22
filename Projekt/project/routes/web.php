@@ -26,8 +26,12 @@ Route::get('/', function () {
 
 Route::get('/dashboard', function () {
     $user_donations = Donation::all()->where('user_id', '=', auth()->user()->id)->where('is_anonymous', '=', '0');
+    $user_anonymous_donations = Donation::all()->where('user_id', '=', auth()->user()->id)->where('is_anonymous', '=', '1');
     $user_fundraisers = Fundraiser::all()->where('user_id', '=', auth()->user()->id);
-    return view('dashboard', ["user_donations" => $user_donations, "user_fundraisers" => $user_fundraisers])
+    $sum_donations = Donation::all()->where('user_id', '=', auth()->user()->id)->sum('amount');
+
+    return view('dashboard', ["user_donations" => $user_donations, "user_fundraisers" => $user_fundraisers,
+        "user_anonymous_donations" =>$user_anonymous_donations, "sum_donations" => $sum_donations])
         ->withFundraisers(Fundraiser::all())
         ->withDonations(Donation::all());
 })->middleware(['auth'])->name('dashboard');
