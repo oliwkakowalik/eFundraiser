@@ -24,14 +24,14 @@ class FundraiserController extends Controller
         ]);
 
         $fundraisers = Fundraiser::select("*")->orderByDesc('created_at');
-        $paged = $fundraisers->paginate(10);
 
         if($request->input('filter') == 'all' ){
             session(['amount_to_be_raised' => $request->input('amount_to_be_raised')]);
             session(['category' => $request->input('category')]);
             session(['stop_date' => $request->input('stop_date')]);
             session(['start_date' => $request->input('start_date')]);
-            return view('fundraisers.index')->withFundraisers($fundraisers->get())->withCategories(Category::all());
+            $paged = $fundraisers->paginate(10);
+            return view('fundraisers.index', ["paged" => $paged])->withFundraisers($fundraisers->get())->withCategories(Category::all());
         }
         if($request->has('amount_to_be_raised') ){
             session(['amount_to_be_raised' => $request->input('amount_to_be_raised')]);
@@ -44,6 +44,7 @@ class FundraiserController extends Controller
              $fundraisers = $this->sort($fundraisers);
         else
              $fundraisers = $this->filter($fundraisers);
+             $paged = $fundraisers->paginate(10);
 
         return view('fundraisers.index', ["paged" => $paged])->withFundraisers($fundraisers->get())->withCategories(Category::all());
     }
@@ -96,7 +97,11 @@ class FundraiserController extends Controller
      */
     public function show(Fundraiser $fundraiser)
     {
-        return view('fundraisers.show')->withFundraiser($fundraiser);
+        $is_closed = false;
+        if ($fundraiser->stop_date < \Carbon\Carbon::now()->toDateTimeString()) {
+            $is_closed = true;
+        }
+        return view('fundraisers.show', ['is_closed' => $is_closed])->withFundraiser($fundraiser);
     }
 
     /**
