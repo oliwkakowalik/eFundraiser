@@ -27,179 +27,146 @@ use App\Models\User;
     </style>
 </head>
 <body>
-
-
-<div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
-
-
-    <div class="hidden fixed top-0 left-0 px-6 py-4 sm:block">
-        <a href="{{ route('users.index') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Users</a>
-
-        <a href="{{ route('fundraisers.index') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Fundraisers</a>
-
-        <br>
-        <br>
-
+<x-app-layout>
+    <div class="relative flex items-top justify-center bg-gray-100 dark:bg-gray-900 py-4 sm:pt-0">
+        <x-slot name="header">
+            <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+                {{ __('Welcome to eFundraiser') }}
+            </h2>
+        </x-slot>
         @if (session('status'))
+        <div class="relative flex items-top justify-center bg-gray-100 py-12 px-6">
             <div class="alert alert-success">
                 {{ session('status') }}
             </div>
+        </div>
         @endif
+        <div class="relative flex items-top justify-center bg-gray-100 py-12 px-6">
+            <div class="flex-1">
+                <h3  class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ __('Latest fundraisers') }}
+                </h3>
+                <br>
+                @if($fundraisers->isEmpty())
+                    <p class="p-6">No fundraisers available.</p>
+                @else
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Title
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Amount
+                            </th>
+                            <th scope="col"
+                                class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                Ends at
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                        @foreach($fundraisers as $fundraiser)
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <a href="{{ route('fundraisers.show', $fundraiser) }}" class="text-indigo-600
+                                        hover:text-indigo-900">{{ $fundraiser->title }}</a>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ $fundraiser->amount_raised }} /
+                                        {{ $fundraiser->amount_to_be_raised }}</div>
+                                </td>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-900">{{ $fundraiser->stop_date }}</div>
+                                </td>
+                            </tr>
+                        @endforeach
+                        </tbody>
+                    </table>
 
-    </div>
+                @endif
 
-
-    <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-    @auth
-            <a href="{{ route('dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
-
-        @else
-            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
-
-            @if (Route::has('register'))
-                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-            @endif
-        @endauth
-    </div>
-<x-app-layout>
-    <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            {{ __('Welcome to eFundraiser') }}
-        </h2>
-    </x-slot>
-    <div class="relative flex items-top justify-center bg-gray-100 py-12 px-6">
-        <div class="flex-1">
-            <h3  class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Latest fundraisers') }}
-            </h3>
-            <br>
-            @if($fundraisers->isEmpty())
-                <p class="p-6">No fundraisers available.</p>
-            @else
+            </div>
+            <div class="flex-1 px-6">
+                <h3  class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ __('Top users') }}
+                </h3>
+                <br>
                 <table class="min-w-full divide-y divide-gray-200">
                     <thead class="bg-gray-50">
                     <tr>
                         <th scope="col"
                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Title
+                            Username
                         </th>
                         <th scope="col"
                             class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Amount
-                        </th>
-                        <th scope="col"
-                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                            Ends at
+                            Total
                         </th>
                     </tr>
                     </thead>
                     <tbody class="bg-white divide-y divide-gray-200">
-                    @foreach($fundraisers as $fundraiser)
+                    @foreach(array_slice(User::scopeRanking($donations), 0, 3) as $user)
                         <tr>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <a href="{{ route('fundraisers.show', $fundraiser) }}" class="text-indigo-600
-                                    hover:text-indigo-900">{{ $fundraiser->title }}</a>
+                                <a style="color: {{User::findOrFail($user[2])->isSpecial()}}" href="{{ route('users.show', $user[2]) }}" class="text-indigo-600
+                                        hover:text-indigo-900">{{ $user[0] }}</a>
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{ $fundraiser->amount_raised }} /
-                                    {{ $fundraiser->amount_to_be_raised }}</div>
-                            </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <div class="text-sm text-gray-900">{{ $fundraiser->stop_date }}</div>
+                                <div class="text-sm text-gray-900">{{$user[1]}}</div>
                             </td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
-
-            @endif
-
-        </div>
-        <div class="flex-1">
-            <h3  class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Top users') }}
-            </h3>
-            <br>
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                <tr>
-                    <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Username
-                    </th>
-                    <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Total
-                    </th>
-                </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                @foreach(array_slice(User::scopeRanking($donations), 0, 3) as $user)
+            </div>
+            <div class="flex-1 px-6">
+                <h3  class="font-semibold text-xl text-gray-800 leading-tight">
+                    {{ __('Latest donations') }}
+                </h3>
+                <br>
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
                     <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            @if(Auth::id() == $user[2])
-                                <a style="color: {{User::findOrFail($user[2])->isSpecial()}}" href="{{ route('dashboard') }}" class="text-indigo-600
-                                    hover:text-indigo-900">{{ $user[0] }}</a>
-                            @else
-                            <a style="color: {{User::findOrFail($user[2])->isSpecial()}}" href="{{ route('users.show', $user[2]) }}" class="text-indigo-600
-                                    hover:text-indigo-900">{{ $user[0] }}</a>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div class="text-sm text-gray-900">{{$user[1]}}</div>
-                        </td>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Fundraiser
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            User
+                        </th>
+                        <th scope="col"
+                            class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+                            Amount
+                        </th>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
-        </div>
-        <div class="flex-1">
-            <h3  class="font-semibold text-xl text-gray-800 leading-tight">
-                {{ __('Latest donations') }}
-            </h3>
-            <br>
-            <table class="min-w-full divide-y divide-gray-200">
-                <thead class="bg-gray-50">
-                <tr>
-                    <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Fundraiser
-                    </th>
-                    <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        User
-                    </th>
-                    <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
-                        Amount
-                    </th>
-                </tr>
-                </thead>
-                <tbody class="bg-white divide-y divide-gray-200">
-                @foreach(Donation::all()->sortBy('created_at')->take(3) as $donation)
-                    <tr>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <a href="{{ route('fundraisers.show', $donation->fundraiser) }}" class="text-indigo-600
-                                    hover:text-indigo-900">{{ $donation->fundraiser->title }}</a>
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            @if( !isset($donation->user) )
-                                User has deleted their's account.
-                            @elseif(Auth::id() == $donation->user->id)
-                            <a style="color: {{$donation->user->isSpecial()}}" href="{{ route('dashboard') }}" class="text-indigo-600
-                                 hover:text-indigo-900">{{ $donation->user->name }}</a>
-                            @else
-                            <a style="color: {{$donation->user->isSpecial()}}" href="{{ route('users.show', $donation->user) }}" class="text-indigo-600
-                                     hover:text-indigo-900">{{ $donation->user->name }}</a>
-                            @endif
-                        </td>
-                        <td class="px-6 py-4 whitespace-nowrap">
-                            <div>{{ $donation->amount }}</div>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                    @foreach(Donation::all()->sortBy('created_at')->take(3) as $donation)
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <a href="{{ route('fundraisers.show', $donation->fundraiser) }}" class="text-indigo-600
+                                        hover:text-indigo-900">{{ $donation->fundraiser->title }}</a>
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                @if( !isset($donation->user) )
+                                    User has deleted their's account.
+                                @else
+                                <a style="color: {{$donation->user->isSpecial()}}" href="{{ route('users.show', $donation->user) }}" class="text-indigo-600
+                                         hover:text-indigo-900">{{ $donation->user->name }}</a>
+                                @endif
+                            </td>
+                            <td class="px-6 py-4 whitespace-nowrap">
+                                <div>{{ $donation->amount }}</div>
+                            </td>
+                        </tr>
+                    @endforeach
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div class="relative flex items-top justify-center bg-gray-100 py-12 px-6">
@@ -212,6 +179,6 @@ use App\Models\User;
         </div>
     </div>
 </x-app-layout>
-</div>
+
 </body>
 </html>

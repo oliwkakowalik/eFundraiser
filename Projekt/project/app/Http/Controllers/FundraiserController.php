@@ -23,7 +23,8 @@ class FundraiserController extends Controller
             'amount_to_be_raised' => 'numeric|nullable|min:0|max:99999999'
         ]);
 
-        $fundraisers = Fundraiser::select("*");
+        $fundraisers = Fundraiser::select("*")->orderByDesc('created_at');
+        $paged = $fundraisers->paginate(10);
 
         if($request->input('filter') == 'all' ){
             session(['amount_to_be_raised' => $request->input('amount_to_be_raised')]);
@@ -44,7 +45,7 @@ class FundraiserController extends Controller
         else
              $fundraisers = $this->filter($fundraisers);
 
-        return view('fundraisers.index')->withFundraisers($fundraisers->get())->withCategories(Category::all());
+        return view('fundraisers.index', ["paged" => $paged])->withFundraisers($fundraisers->get())->withCategories(Category::all());
     }
 
     /**

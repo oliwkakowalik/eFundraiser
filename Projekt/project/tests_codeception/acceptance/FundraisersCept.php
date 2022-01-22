@@ -7,7 +7,7 @@ $I = new AcceptanceTester($scenario ?? null);
 $I->wantTo('have fundraisers page');
 
 $I->amOnPage('/login');
-$I->fillField('email', 'john.doe@gmail.com');
+$I->fillField('email', 'krzysztof.zarnowski@gmail.com');
 $I->fillField('password', 'secret');
 $I->click('Log in');
 
@@ -30,15 +30,15 @@ $I->see('The amount to be raised field is required.', 'li');
 $title = 'Test Title';
 $description = 'Test Description';
 $category = 'Needs';
-$date_string = "01/01/2030 23:59:00";
-$stop_date = strtotime($date_string);
-$stop_date_form = Carbon::createFromFormat('Y-m-d H:i:s', $date_string )->format('Y-m-d');
+$date_string = "2022-01-24 23:59:00";
+$stop_date = "2022-03-24";
+$stop_timestamp = $stop_date . " 23:59:59";
 $amount = '1000';
 
 $I->fillField('title', $title);
 $I->selectOption("select", $category);
 $I->fillField('description', $description);
-$I->fillField('stop_date', '01/01/1950');
+$I->fillField('stop_date', '2022-01-01');
 $I->fillField('amount_to_be_raised', '-5');
 
 $I->click('Create');
@@ -50,13 +50,13 @@ $I->see('The amount to be raised must be greater than 0.', 'li');
 $I->seeInField('title', $title);
 $I->seeInField('category', $category);
 $I->seeInField('description', $description);
-$I->fillField('stop_date', $stop_date_form);
+$I->fillField('stop_date', $stop_date);
 $I->fillField('amount_to_be_raised', $amount);
 
 $I->dontSeeInDatabase('fundraisers', [
     'title' => $title,
     'description' => $description,
-    'stop_date' => $stop_date,
+    'stop_date' => $stop_timestamp,
     'amount_to_be_raised' => $amount
 ]);
 
@@ -65,6 +65,7 @@ $I->click('Create');
 $I->seeInDatabase('fundraisers', [
     'title' => $title,
     'description' => $description,
+    'stop_date' => $stop_timestamp,
     'amount_to_be_raised' => $amount
 ]);
 
@@ -101,13 +102,14 @@ $I->seeInField('stop_date', $stop_date);
 $I->seeInField('amount_to_be_raised', $amount);
 
 $I->fillField('amount_to_be_raised', '-5');
-$I->seeInField('stop_date', '');
+$I->fillField('description', '');
 
 $I->click('Update');
 
 $I->seeCurrentUrlEquals('/fundraisers/' . $id . '/edit');
-$I->see('The stop date field is required.', 'li');
+
 $I->see('The amount to be raised must be greater than 0.', 'li');
+$I->see('The description field is required.', 'li');
 
 $updated_description = "Updated test description";
 $updated_amount = '5000';
@@ -125,15 +127,15 @@ $I->see($updated_amount);
 $I->dontSeeInDatabase('fundraisers', [
     'title' => $title,
     'description' => $description,
-    'stop_date' => $stop_date,
+    'stop_date' => $stop_timestamp,
     'amount_to_be_raised' => $amount
 ]);
 
 $I->seeInDatabase('fundraisers', [
     'title' => $title,
     'description' => $updated_description,
-    'stop_date' => $stop_date,
-    'amount_to_be_raised' => $updated_amount
+    'stop_date' => $stop_timestamp,
+    'amount_to_be_raised' => $updated_amount,
 ]);
 
 $I->click('Delete');
@@ -143,7 +145,7 @@ $I->seeCurrentUrlEquals('/fundraisers');
 $I->dontSeeInDatabase('fundraisers', [
     'title' => $title,
     'description' => $updated_description,
-    'stop_date' => $stop_date,
+    'stop_date' => $stop_timestamp,
     'amount_to_be_raised' => $updated_amount
 ]);
 

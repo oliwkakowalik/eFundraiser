@@ -24,18 +24,21 @@ class UserSeeder extends Seeder
             'name' => 'Oliwia Kowalik',
             'email' => 'oliwia.kowalik@gmail.com',
             'password' => bcrypt('secret'),
+            'email_verified_at' => '2021-01-23 15:11:04'
         ]);
 
         DB::table('users')->insert([
             'name' => 'Olga Śmistek',
             'email' => 'olga.smistek@gmail.com',
             'password' => bcrypt('secret'),
+            'email_verified_at' => '2021-01-20 15:11:04'
         ]);
 
         DB::table('users')->insert([
             'name' => 'Krzysztof Żarnowski',
             'email' => 'krzysztof.zarnowski@gmail.com',
             'password' => bcrypt('secret'),
+            'email_verified_at' => '2021-01-10 15:11:04'
         ]);
 
         DB::table('users')->insert([
