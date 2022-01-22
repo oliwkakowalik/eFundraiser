@@ -112,7 +112,11 @@
                                         {{ $fundraiser->amount_to_be_raised }}</div>
                                 </td>
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-900">{{ $fundraiser->stop_date }}</div>
+                                    @if($fundraiser->stop_date < \Carbon\Carbon::now()->toDateTimeString())
+                                        <div class="text-sm text-red-600">Closed</div>
+                                    @else
+                                        <div class="text-sm text-gray-900">{{ $fundraiser->stop_date }}</div>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -122,13 +126,6 @@
                 </div>
                 <div>
                     {{ $paged->links() }}
-                </div>
-                <div class="flex items-center justify-end mt-4 px-4 pb-5">
-                    <form method="get" action="{{ route('fundraisers.create') }}">
-                        <x-button class="ml-4">
-                            {{ __('Create new...') }}
-                        </x-button>
-                    </form>
                 </div>
            </div>
         </div>

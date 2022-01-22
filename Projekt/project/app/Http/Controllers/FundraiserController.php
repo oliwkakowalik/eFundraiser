@@ -24,14 +24,14 @@ class FundraiserController extends Controller
         ]);
 
         $fundraisers = Fundraiser::select("*")->orderByDesc('created_at');
-        $paged = $fundraisers->paginate(10);
 
         if($request->input('filter') == 'all' ){
             session(['amount_to_be_raised' => $request->input('amount_to_be_raised')]);
             session(['category' => $request->input('category')]);
             session(['stop_date' => $request->input('stop_date')]);
             session(['start_date' => $request->input('start_date')]);
-            return view('fundraisers.index')->withFundraisers($fundraisers->get())->withCategories(Category::all());
+            $paged = $fundraisers->paginate(10);
+            return view('fundraisers.index', ["paged" => $paged])->withFundraisers($fundraisers->get())->withCategories(Category::all());
         }
         if($request->has('amount_to_be_raised') ){
             session(['amount_to_be_raised' => $request->input('amount_to_be_raised')]);
@@ -44,6 +44,7 @@ class FundraiserController extends Controller
              $fundraisers = $this->sort($fundraisers);
         else
              $fundraisers = $this->filter($fundraisers);
+             $paged = $fundraisers->paginate(10);
 
         return view('fundraisers.index', ["paged" => $paged])->withFundraisers($fundraisers->get())->withCategories(Category::all());
     }
@@ -96,7 +97,8 @@ class FundraiserController extends Controller
      */
     public function show(Fundraiser $fundraiser)
     {
-        return view('fundraisers.show')->withFundraiser($fundraiser);
+        $is_closed = $fundraiser->stop_date < \Carbon\Carbon::now()->toDateTimeString();
+        return view('fundraisers.show', ['is_closed' => $is_closed])->withFundraiser($fundraiser);
     }
 
     /**
@@ -107,7 +109,9 @@ class FundraiserController extends Controller
      */
     public function edit(Fundraiser $fundraiser)
     {
-        if (auth::id() == $fundraiser->user->id) {
+        $is_owner = auth::id() == $fundraiser->user->id;
+        $is_closed = $fundraiser->stop_date < \Carbon\Carbon::now()->toDateTimeString();
+        if ($is_owner and !$is_closed) {
             return view("fundraisers.edit")->withFundraiser($fundraiser)->withCategories(Category::all());
         } else {
             abort(403);

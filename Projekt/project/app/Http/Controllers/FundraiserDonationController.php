@@ -33,8 +33,11 @@ class FundraiserDonationController extends Controller
      */
     public function create(Fundraiser $fundraiser)
     {
-        return view('donations.create')->withFundraiser($fundraiser);
-
+        if ($fundraiser->stop_date < \Carbon\Carbon::now()->toDateTimeString()) {
+            abort(403);
+        } else {
+            return view('donations.create')->withFundraiser($fundraiser);
+        }
     }
 
     /**

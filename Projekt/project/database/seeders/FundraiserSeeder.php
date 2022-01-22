@@ -122,7 +122,7 @@ class FundraiserSeeder extends Seeder
             'stop_date' => '2022-02-11 23:59:59',
             'amount_to_be_raised' => '5000',
             'amount_raised' => '1245',
-            'created_at' => '2022-01-17 19:00:0'
+            'created_at' => '2021-01-17 19:00:0'
         ]);
 
         DB::table('fundraisers')->insert([
@@ -133,7 +133,7 @@ class FundraiserSeeder extends Seeder
             'stop_date' => '2022-05-28 23:59:59',
             'amount_to_be_raised' => '12000',
             'amount_raised' => '54322',
-            'created_at' => '2022-01-21 19:00:0'
+            'created_at' => '2022-01-08 19:00:0'
         ]);
 
         DB::table('fundraisers')->insert([
@@ -144,7 +144,7 @@ class FundraiserSeeder extends Seeder
             'stop_date' => '2022-04-21 23:59:59',
             'amount_to_be_raised' => '1200',
             'amount_raised' => '7432',
-            'created_at' => '2022-01-22 11:00:0'
+            'created_at' => '2022-01-12 11:00:0'
         ]);
 
         DB::table('fundraisers')->insert([
@@ -295,7 +295,7 @@ class FundraiserSeeder extends Seeder
             'description' => 'Zbiórka na komputer.',
             'user_id' => '14',
             'category_id' => '9',
-            'stop_date' => '2022-02-26 23:59:59',
+            'stop_date' => '2021-02-26 23:59:59',
             'amount_to_be_raised' => '8000',
             'amount_raised' => '1832',
             'created_at' => '2021-12-25 11:00:0'
@@ -306,7 +306,7 @@ class FundraiserSeeder extends Seeder
             'description' => 'Zbiórka na koc.',
             'user_id' => '15',
             'category_id' => '9',
-            'stop_date' => '2022-01-31 23:59:59',
+            'stop_date' => '2021-01-31 23:59:59',
             'amount_to_be_raised' => '80',
             'amount_raised' => '12',
             'created_at' => '2022-01-02 11:00:0'

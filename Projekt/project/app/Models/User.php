@@ -70,7 +70,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function isSpecial(){
-        if($this->scopeSumOfDonations(DB::table('donations')->where('created_at', '>', Carbon::now()->subDays(7))) > 50) {
+        if($this->scopeSumOfDonations(DB::table('donations')->where('created_at', '>', Carbon::now()->subDays(7))) > 500) {
         return "orange";
         }
         else{
