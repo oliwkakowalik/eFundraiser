@@ -17,8 +17,8 @@ class DonationSeeder extends Seeder
         DB::table('donations')->insert([
             'amount' => '3000',
             'description' => 'Kocham pieski',
-            'is_anonymous' => '1',
-            'user_id' => '2',
+            'is_anonymous' => '0',
+            'user_id' => '1',
             'fundraiser_id' => '1',
             'created_at' => \Carbon\Carbon::now()->toDateTimeString()
         ]);
