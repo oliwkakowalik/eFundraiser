@@ -28,6 +28,39 @@ use App\Models\User;
 </head>
 <body>
 
+
+<div class="relative flex items-top justify-center min-h-screen bg-gray-100 dark:bg-gray-900 sm:items-center py-4 sm:pt-0">
+
+
+    <div class="hidden fixed top-0 left-0 px-6 py-4 sm:block">
+        <a href="{{ route('users.index') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Users</a>
+
+        <a href="{{ route('fundraisers.index') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Fundraisers</a>
+
+        <br>
+        <br>
+
+        @if (session('status'))
+            <div class="alert alert-success">
+                {{ session('status') }}
+            </div>
+        @endif
+
+    </div>
+
+
+    <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
+    @auth
+            <a href="{{ route('dashboard') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Dashboard</a>
+
+        @else
+            <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
+
+            @if (Route::has('register'))
+                <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
+            @endif
+        @endauth
+    </div>
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
@@ -78,6 +111,7 @@ use App\Models\User;
                     @endforeach
                     </tbody>
                 </table>
+
             @endif
 
         </div>
@@ -144,8 +178,12 @@ use App\Models\User;
                                     hover:text-indigo-900">{{ $donation->fundraiser->title }}</a>
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
+                            @if( !isset($donation->user) )
+                                User has deleted their's account.
+                            @else
                             <a style="color: {{$donation->user->isSpecial()}}" href="{{ route('users.show', $donation->user) }}" class="text-indigo-600
-                                    hover:text-indigo-900">{{ $donation->user->name }}</a>
+                                     hover:text-indigo-900">{{ $donation->user->name }}</a>
+                            @endif
                         </td>
                         <td class="px-6 py-4 whitespace-nowrap">
                             <div>{{ $donation->amount }}</div>
@@ -166,5 +204,6 @@ use App\Models\User;
         </div>
     </div>
 </x-app-layout>
+</div>
 </body>
 </html>

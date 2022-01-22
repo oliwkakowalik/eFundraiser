@@ -36,12 +36,14 @@ use \App\Models\User;
                                     Donator
                                 </dt>
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                        @if($donation->is_anonymous == 1)
+                                    @if( !isset($donation->user) )
+                                        User has deleted their's account.
+                                    @elseif($donation->is_anonymous == 1)
                                             Anonymous donation
-                                        @else
+                                    @else
                                         <a style="color: {{User::findOrFail($donation->user_id)->isSpecial()}}" href="{{ route('users.show', $donation->user) }}" class="text-indigo-600
                                     hover:text-indigo-900"><x-markdown>{{ $donation->user->name }}</x-markdown></a>
-                                        @endif
+                                    @endif
                                 </dd>
                             </div>
 

@@ -204,7 +204,7 @@ class FundraiserSeeder extends Seeder
 
         DB::table('fundraisers')->insert([
             'title' => 'Prezent dla taty',
-            'description' => 'Zbiórka na preznet dla taty.',
+            'description' => 'Zbiórka na prezent dla taty.',
             'user_id' => '6',
             'category_id' => '5',
             'stop_date' => '2022-03-19 23:59:59',

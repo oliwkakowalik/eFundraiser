@@ -24,8 +24,12 @@ use \App\Models\User;
                                 <dt class="text-sm font-medium text-gray-500">
                                     Created by
                                 </dt>
+                                @if( !isset($fundraiser->user) )
+                                    User has deleted their's account.
+                                @else
                                 <a style="color: {{User::findOrFail($fundraiser->user_id)->isSpecial()}}" href="{{ route('users.show', $fundraiser->user) }}" class="text-indigo-600
                                     hover:text-indigo-900"><x-markdown>{{ $fundraiser->user->name }}</x-markdown></a>
+                                @endif
                             </div>
                             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt class="text-sm font-medium text-gray-500">
