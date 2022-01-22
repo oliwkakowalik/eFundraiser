@@ -168,7 +168,6 @@ use App\Models\User;
                 </table>
             </div>
         </div>
-
     </div>
     <div class="relative flex items-top justify-center bg-gray-100 py-12 px-6">
         <div class="flex items-center justify-end mt-4 px-4 pb-5">

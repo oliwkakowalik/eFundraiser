@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\DB;
 use App\Models\Donation;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -60,6 +61,10 @@ class FundraiserDonationController extends Controller
         $donation->updated_at = null;
 
         $donation->save();
+
+        $donation->fundraiser->amount_raised = DB::table('donations')->where('fundraiser_id', '=', $donation->fundraiser->id)->sum('amount');
+
+        $donation->fundraiser->save();
 
         return redirect()->route('fundraisers.donations.show', [$fundraiser, $donation]);
     }
