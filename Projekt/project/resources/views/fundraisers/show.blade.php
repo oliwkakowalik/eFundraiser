@@ -88,7 +88,7 @@ use \App\Models\User;
                                     </x-markdown>
                                 </dd>
                             </div>
-                            @if( isset($fundraiser->user) && Auth::id() == $fundraiser->user->id)
+                            @if( isset($fundraiser->user) && Auth::id() == $fundraiser->user->id && !$is_closed)
                             <div class="bg-white px-4 pb-5 flex items-center justify-end mt-4">
 
                                 <form method="get" action="{{ route('fundraisers.edit', $fundraiser) }}">
