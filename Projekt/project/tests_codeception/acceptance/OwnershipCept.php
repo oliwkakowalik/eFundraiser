@@ -34,7 +34,6 @@ $donation_id = $I->grabFromDatabase('donations', 'id', [
 $I->amOnPage('/fundraisers'.$fundraiser_id.'donations'.$donation_id);
 
 $I->dontSee('Edit');
-$I->dontSee('Delete');
 
 $I->amOnPage('/fundraisers/'.$fundraiser_id.'donations'.$donation_id.'/edit');
 $I->seeResponseCodeIs(403);

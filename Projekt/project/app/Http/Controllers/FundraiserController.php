@@ -182,7 +182,7 @@ class FundraiserController extends Controller
         if( session('stop_date') != '' )
             $fundraisers = $fundraisers->where('stop_date','<=',session('stop_date'));
         if( session('start_date') != '' )
-            $fundraisers = $fundraisers->where('start_date','<=',session('start_date'));
+            $fundraisers = $fundraisers->where('created_at','<=',session('start_date'));
 
         return $fundraisers;
     }
