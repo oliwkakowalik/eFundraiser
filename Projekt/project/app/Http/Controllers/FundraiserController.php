@@ -97,7 +97,6 @@ class FundraiserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Fundraiser $fundraiser)
-<<<<<<< HEAD
     {   $latest_5_donations = Donation::orderBy('created_at')->where('fundraiser_id', $fundraiser->id)->get()->take(5);
         $is_closed = $fundraiser->stop_date < \Carbon\Carbon::now()->toDateTimeString();
         return view('fundraisers.show', ["latest_5_donations" => $latest_5_donations, 'is_closed' => $is_closed])->withFundraiser($fundraiser);
