@@ -12,6 +12,7 @@
                         {{ __('Filtration Catalog') }}
                     </h3>
                     <x-auth-validation-errors class="mb-4" :errors="$errors" />
+
                     <form id="create_form"  method="get" action="{{ route('fundraisers.index') }}">
                         @csrf
                         <div class="mt-4">
@@ -26,7 +27,7 @@
                                         value="{{ $category->name }}">{{ $category->name }}</option>
                                 @endforeach
                             </select>
-
+                        </div>
                         <div class="mt-4">
                             <x-label for="amount_to_be_raised" :value="__('Minimal Amount To Collect')" />
                             <x-input id="amount_to_be_raised" class="block mt-1 w-full" type="number" name="amount_to_be_raised" :value="old('amount_to_be_raised')" />
@@ -59,7 +60,6 @@
                                     </x-button>
                                 </form>
                             </div>
-                     </div>
                     </form>
                 @if( count($fundraisers) < 1 )
                     <p class="p-6">No fundraisers available.</p>
