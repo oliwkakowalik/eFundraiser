@@ -15,13 +15,13 @@ class FundraiserSeeder extends Seeder
     public function run()
     {
         DB::table('fundraisers')->insert([
-            'title' => 'Na schronisko dla piesków',  // do usuniecia
+            'title' => 'Na schronisko dla piesków',
             'description' => 'Zbiórka na schronisko dla psów **"Kundelek"**!',
             'user_id' => '1',
             'category_id' => '6',
             'stop_date' => '2022-02-20 15:00:0',
             'amount_to_be_raised' => '5000',
-            'amount_raised' => '3000',
+            'amount_raised' => '3500',
             'created_at' => \Carbon\Carbon::now()->toDateTimeString()
         ]);
 
@@ -32,7 +32,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '6',
             'stop_date' => '2022-02-17 15:00:0',
             'amount_to_be_raised' => '10000',
-            'amount_raised' => '5450.45',
+            'amount_raised' => '0',
             'created_at' => \Carbon\Carbon::now()->toDateTimeString()
         ]);
 
@@ -43,7 +43,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '6',
             'stop_date' => '2022-03-11 15:00:0',
             'amount_to_be_raised' => '15000',
-            'amount_raised' => '7450.45',
+            'amount_raised' => '200',
             'created_at' => '2022-01-01 13:00:0'
         ]);
 
@@ -54,7 +54,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '1',
             'stop_date' => '2022-05-12 23:59:59',
             'amount_to_be_raised' => '100000',
-            'amount_raised' => '45654.65',
+            'amount_raised' => '6000',
             'created_at' => '2022-01-12 15:00:0'
         ]);
 
@@ -65,7 +65,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '1',
             'stop_date' => '2022-04-02 23:59:59',
             'amount_to_be_raised' => '13000',
-            'amount_raised' => '3456.35',
+            'amount_raised' => '0',
             'created_at' => '2022-01-02 17:00:0'
         ]);
 
@@ -77,7 +77,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '1',
             'stop_date' => '2022-04-12 23:59:59',
             'amount_to_be_raised' => '4000',
-            'amount_raised' => '1576',
+            'amount_raised' => '100',
             'created_at' => '2022-01-07 19:00:0'
         ]);
 
@@ -88,7 +88,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '2',
             'stop_date' => '2022-06-12 23:59:59',
             'amount_to_be_raised' => '300000',
-            'amount_raised' => '228456.34',
+            'amount_raised' => '0',
             'created_at' => '2021-12-17 19:00:0'
         ]);
 
@@ -99,7 +99,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '2',
             'stop_date' => '2022-04-12 23:59:59',
             'amount_to_be_raised' => '320000',
-            'amount_raised' => '143256.34',
+            'amount_raised' => '0',
             'created_at' => '2021-11-17 19:00:0'
         ]);
 
@@ -110,7 +110,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '2',
             'stop_date' => '2022-05-02 23:59:59',
             'amount_to_be_raised' => '500000',
-            'amount_raised' => '354875.45',
+            'amount_raised' => '25050',
             'created_at' => '2021-11-12 19:00:0'
         ]);
 
@@ -121,7 +121,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '3',
             'stop_date' => '2022-02-11 23:59:59',
             'amount_to_be_raised' => '5000',
-            'amount_raised' => '1245',
+            'amount_raised' => '2500',
             'created_at' => '2021-01-17 19:00:0'
         ]);
 
@@ -132,7 +132,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '3',
             'stop_date' => '2022-05-28 23:59:59',
             'amount_to_be_raised' => '12000',
-            'amount_raised' => '54322',
+            'amount_raised' => '200',
             'created_at' => '2022-01-08 19:00:0'
         ]);
 
@@ -143,7 +143,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '3',
             'stop_date' => '2022-04-21 23:59:59',
             'amount_to_be_raised' => '1200',
-            'amount_raised' => '7432',
+            'amount_raised' => '0',
             'created_at' => '2022-01-12 11:00:0'
         ]);
 
@@ -154,7 +154,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '4',
             'stop_date' => '2022-04-21 23:59:59',
             'amount_to_be_raised' => '4000',
-            'amount_raised' => '2345',
+            'amount_raised' => '0',
             'created_at' => '2022-01-19 11:00:0'
         ]);
 
@@ -165,7 +165,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '4',
             'stop_date' => '2022-01-31 23:59:59',
             'amount_to_be_raised' => '1500',
-            'amount_raised' => '345',
+            'amount_raised' => '2000',
             'created_at' => '2022-01-02 11:00:0'
         ]);
 
@@ -176,7 +176,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '4',
             'stop_date' => '2022-02-17 23:59:59',
             'amount_to_be_raised' => '4300',
-            'amount_raised' => '1876',
+            'amount_raised' => '100',
             'created_at' => '2022-01-11 11:00:0'
         ]);
 
@@ -187,7 +187,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '5',
             'stop_date' => '2022-02-19 23:59:59',
             'amount_to_be_raised' => '2000',
-            'amount_raised' => '1345',
+            'amount_raised' => '0',
             'created_at' => '2022-01-13 11:00:0'
         ]);
 
@@ -198,7 +198,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '5',
             'stop_date' => '2022-01-26 23:59:59',
             'amount_to_be_raised' => '12000',
-            'amount_raised' => '10425',
+            'amount_raised' => '0',
             'created_at' => '2022-01-01 11:00:0'
         ]);
 
@@ -209,7 +209,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '5',
             'stop_date' => '2022-03-19 23:59:59',
             'amount_to_be_raised' => '1200',
-            'amount_raised' => '456',
+            'amount_raised' => '200',
             'created_at' => '2022-01-14 11:00:0'
         ]);
 
@@ -220,7 +220,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '7',
             'stop_date' => '2022-04-26 23:59:59',
             'amount_to_be_raised' => '48000',
-            'amount_raised' => '456',
+            'amount_raised' => '251',
             'created_at' => '2022-01-22 11:00:0'
         ]);
 
@@ -231,7 +231,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '7',
             'stop_date' => '2022-03-16 23:59:59',
             'amount_to_be_raised' => '34000',
-            'amount_raised' => '12000',
+            'amount_raised' => '2522',
             'created_at' => '2021-12-02 11:00:0'
         ]);
 
@@ -242,7 +242,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '7',
             'stop_date' => '2022-02-16 23:59:59',
             'amount_to_be_raised' => '32000',
-            'amount_raised' => '23456',
+            'amount_raised' => '0',
             'created_at' => '2022-01-14 11:00:0'
         ]);
 
@@ -253,7 +253,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '8',
             'stop_date' => '2022-02-16 23:59:59',
             'amount_to_be_raised' => '500000',
-            'amount_raised' => '340234',
+            'amount_raised' => '100000',
             'created_at' => '2021-05-23 11:00:0'
         ]);
 
@@ -264,7 +264,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '8',
             'stop_date' => '2022-03-18 23:59:59',
             'amount_to_be_raised' => '238000',
-            'amount_raised' => '123432',
+            'amount_raised' => '500',
             'created_at' => '2021-08-20 11:00:0'
         ]);
 
@@ -275,7 +275,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '8',
             'stop_date' => '2022-01-29 23:59:59',
             'amount_to_be_raised' => '600000',
-            'amount_raised' => '1872',
+            'amount_raised' => '0',
             'created_at' => '2021-12-23 11:00:0'
         ]);
 
@@ -286,7 +286,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '9',
             'stop_date' => '2022-03-03 23:59:59',
             'amount_to_be_raised' => '61000',
-            'amount_raised' => '34212',
+            'amount_raised' => '2123',
             'created_at' => '2021-12-04 11:00:0'
         ]);
 
@@ -297,7 +297,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '9',
             'stop_date' => '2021-02-26 23:59:59',
             'amount_to_be_raised' => '8000',
-            'amount_raised' => '1832',
+            'amount_raised' => '456.23',
             'created_at' => '2021-12-25 11:00:0'
         ]);
 
@@ -308,7 +308,7 @@ class FundraiserSeeder extends Seeder
             'category_id' => '9',
             'stop_date' => '2021-01-31 23:59:59',
             'amount_to_be_raised' => '80',
-            'amount_raised' => '12',
+            'amount_raised' => '200',
             'created_at' => '2022-01-02 11:00:0'
         ]);
     }
