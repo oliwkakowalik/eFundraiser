@@ -12,6 +12,7 @@ $I->amOnPage('/fundraisers');
 
 $I->click('Na schronisko dla kotków');
 
+$my_id = $I->grabFromDatabase('users', 'id', array('name' => 'John Doe'));
 $id = $I->grabFromDatabase('fundraisers', 'id', [
     'title' => 'Na schronisko dla kotków'
 ]);
@@ -73,6 +74,17 @@ $I->see("Viewing a donation", 'h2');
 $I->see($amount);
 $I->see($description);
 $I->see('Anonymous donation');
+
+$I->submitForm('#logout_form', array( 'users' => array('name' => 'John Doe')));
+$I->seeCurrentUrlEquals('/');
+
+$I->amOnPage("/users/".$my_id);
+$I->dontSee($amount);
+
+$I->amOnPage('/login');
+$I->fillField('email', 'john.doe@gmail.com');
+$I->fillField('password', 'secret');
+$I->click('Log in');
 
 $I->amOnPage('/fundraisers/' . $id);
 
@@ -163,4 +175,9 @@ $I->click($amount);
 $I->seeCurrentUrlEquals('/fundraisers/' . $id . '/donations/' . $idDonation);
 
 
+$I->submitForm('#logout_form', array( 'users' => array('name' => 'John Doe')));
+$I->seeCurrentUrlEquals('/');
+
+$I->amOnPage("/users/".$my_id);
+$I->see($amount);
 
