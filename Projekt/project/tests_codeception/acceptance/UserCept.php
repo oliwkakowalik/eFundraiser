@@ -45,7 +45,7 @@ $I->see('The name field is required.');
 $I->see('The email field is required.');
 $I->see('The password field is required.');
 
-$new_name = 'Olga Barabara Śmistek';
+$new_name = 'Olga Barbara Śmistek';
 $new_email = 'o.smistek@gmail.com';
 $new_password = 'secret123';
 

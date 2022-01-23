@@ -38,6 +38,14 @@ $I->seeCurrentUrlEquals('/fundraisers/13/donations/' . $idDonation);
 
 $I->see("Anonymous donation");
 
+$I->click("Piłki do siatkówki");
+$I->see("12 / 4000");
+$I->see("12");
+
+$I->click($amount ."- ".$description);
+$I->see("Anonymous donation");
+
+
 $I->amOnPage('/dashboard');
 
 $I->see("0/12");
@@ -67,18 +75,11 @@ $idDonation2 = $I->grabFromDatabase('donations', 'id', [
 $I->seeCurrentUrlEquals('/fundraisers/12/donations/' . $idDonation2);
 
 $I->seeLink("Julia Perry");
+$I->see("15");
+
 
 $I->click("Julia Perry");
 
 $I->see("15/27");
 $I->seeLink("15");
 
-$I->click("Log Out");
-
-$I->amOnPage('/');
-$I->seeCurrentUrlEquals('/');
-
-$I->amOnPage('/login');
-$I->fillField('email', 'oliwia.kowalik@gmail.com');
-$I->fillField('password', 'secret');
-$I->click('Log in');

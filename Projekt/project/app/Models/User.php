@@ -74,7 +74,7 @@ class User extends Authenticatable implements MustVerifyEmail
         return "orange";
         }
         else{
-        return "black";
+        return "blue";
         }
     }
 }
