@@ -9,16 +9,16 @@ $I->amOnPage('/');
 $I->click('Log in');
 $I->amOnPage('/login');
 
-$I->fillField('email', 'john.doe@gmail.com');
+$I->fillField('email', 'olga.smistek@gmail.com');
 $I->fillField('password', 'secret');
 
 $I->click('Log in');
 
 $I->seeCurrentUrlEquals('/dashboard');
 
-$my_name = $I->grabFromDatabase('users', 'name', array('name' => 'John Doe'));
-$my_id = $I->grabFromDatabase('users', 'id', array('name' => 'John Doe'));
-$my_email = $I->grabFromDatabase('users', 'email', array('name' => 'John Doe'));
+$my_name = $I->grabFromDatabase('users', 'name', array('name' => 'Olga Śmistek'));
+$my_id = $I->grabFromDatabase('users', 'id', array('name' => 'Olga Śmistek'));
+$my_email = $I->grabFromDatabase('users', 'email', array('name' => 'Olga Śmistek'));
 
 $I->see($my_name."'s account", 'h2');
 
@@ -45,8 +45,8 @@ $I->see('The name field is required.');
 $I->see('The email field is required.');
 $I->see('The password field is required.');
 
-$new_name = 'Joe Doe';
-$new_email = 'joe.doeee@gmail.com';
+$new_name = 'Olga Barabara Śmistek';
+$new_email = 'o.smistek@gmail.com';
 $new_password = 'secret123';
 
 $I->fillField('name', $new_name);
@@ -71,7 +71,7 @@ $I->dontSee($my_name);
 $I->dontSee($my_email);
 
 
-/*$I->click('Log Out');
+$I->submitForm('#logout_form', array( 'users' => array('name' => 'Olga Śmistek')));
 $I->seeCurrentUrlEquals('/');
 
 $I->click('Log in');
@@ -87,17 +87,17 @@ $I->see('These credentials do not match our records.');
 
 $I->fillField('email', $new_email);
 $I->fillField('password', $new_password);
+$I->click('Log in');
 
 $I->seeCurrentUrlEquals('/dashboard');
-*/
+
 
 $I->click('Fundraisers');
 $I->seeCurrentUrlEquals('/fundraisers');
-$fundraiser = $I->grabFromDatabase('fundraisers', 'title', array('title' => 'Na schronisko dla piesków'));
-$fundraiser_id = $I->grabFromDatabase('fundraisers', 'id', array('title' => 'Na schronisko dla piesków'));
+$fundraiser = $I->grabFromDatabase('fundraisers', 'title', array('title' => 'Na leczenie dla Hani'));
+$fundraiser_id = $I->grabFromDatabase('fundraisers', 'id', array('title' => 'Na leczenie dla Hani'));
 
-$I->click($fundraiser);
-$I->seeCurrentUrlEquals("/fundraisers/".$fundraiser_id);
+$I->amOnPage("/fundraisers/".$fundraiser_id);
 $I->see($fundraiser);
 $I->see($new_name);
 
@@ -105,8 +105,9 @@ $donation_id = $I->grabFromDatabase('donations', 'id', array('user_id' => $my_id
 $donation_amount = $I->grabFromDatabase('donations', 'amount', array('user_id' => $my_id));
 $donation_description = $I->grabFromDatabase('donations', 'description', array('user_id' => $my_id));
 
-$I->click(intval($donation_amount)."- ".$donation_description);
-$I->seeCurrentUrlEquals("/fundraisers/".$fundraiser_id."/donations/".$donation_id);
+$I->amOnPage('/dashboard');
+$I->click(strval(intval($donation_amount)));
+$I->seeCurrentUrlEquals("/fundraisers/9/donations/".$donation_id);
 
 $I->see($new_name);
 
@@ -142,8 +143,10 @@ $I->amOnPage("/fundraisers/".$fundraiser_id);
 $I->dontSee($new_name);
 $I->see('User has deleted their\'s account.');
 
-$I->click(intval($donation_amount)."- ".$donation_description);
-$I->seeCurrentUrlEquals("/fundraisers/".$fundraiser_id."/donations/".$donation_id);
+$I->amOnPage("/fundraisers/9/donations/".$donation_id);
 
 $I->dontSee($new_name);
 $I->see('User has deleted their\'s account.');
+
+$I->click('Fundraisers');
+$I->dontSee($new_name);
