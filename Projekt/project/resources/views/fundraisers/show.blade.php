@@ -1,5 +1,4 @@
 <?php
-use \App\Models\Donation;
 use \App\Models\User;
 ?>
 <x-app-layout>
@@ -81,7 +80,7 @@ use \App\Models\User;
                                 </dt>
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
                                     <x-markdown>
-                                        @foreach(Donation::orderBy('created_at')->where('fundraiser_id', $fundraiser->id)->get()->take(5) as $donation)
+                                        @foreach($latest_5_donations as $donation)
                                             <a href="{{ route('fundraisers.donations.show', [$fundraiser, $donation]) }}"
                                                class="text-indigo-600 hover:text-indigo-900">{{$donation->amount}}- {{$donation->description}}</a>
                                             <br>
@@ -89,7 +88,7 @@ use \App\Models\User;
                                     </x-markdown>
                                 </dd>
                             </div>
-                            @if(Auth::id() == DB::table('fundraisers')->where('id', $fundraiser->id)->value('user_id'))
+                            @if(Auth::id() == $fundraiser->user->id)
                             <div class="bg-white px-4 pb-5 flex items-center justify-end mt-4">
 
                                 <form method="get" action="{{ route('fundraisers.edit', $fundraiser) }}">

@@ -35,42 +35,61 @@
                             </div>
                             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt class="text-sm font-medium text-gray-500">
-                                    created fundraisers:
+
+                                    Fundraisers you created:
                                 </dt>
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                    @foreach($fundraisers as $fundraiser)
-                                        @if( auth()->user()->id == $fundraiser->user_id)
+                                    @foreach($user_fundraisers as $fundraiser)
                                             <a href="{{ route('fundraisers.show', $fundraiser) }}">{{$fundraiser->title}}</a>
                                             <br>
-                                        @endif
                                     @endforeach
-                                        @if( count($fundraisers->where('user_id', '=', auth()->user()->id)) == 0)
+                                        @if($user_fundraisers->isEmpty())
                                             none
                                         @endif
                                 </dd>
                             </div>
                             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt class="text-sm font-medium text-gray-500">
-                                    Donations:
+                                    Your donations:
                                 </dt>
 
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                    @foreach($donations as $donation)
-                                        @if( auth()->user()->id == $donation->user_id)
-                                            <a href="{{ route('fundraisers.donations.show', [\App\Models\Fundraiser::find($donation->fundraiser_id), $donation]) }}">{{$donation->amount}}</a>
-                                            <br>
-                                        @endif
+                                    @foreach($user_donations as $donation)
+                                        <a href="{{ route('fundraisers.donations.show', [$donation->fundraiser, $donation]) }}">{{$donation->amount}}</a>
+                                        <br>
                                     @endforeach
-                                        @if( count($donations->where('user_id', '=', auth()->user()->id)) == 0)
-                                            none
-                                        @endif
+                                    @if($user_donations->isEmpty())
+                                        none
+                                    @endif
                                 </dd>
                             </div>
                             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                                 <dt class="text-sm font-medium text-gray-500">
-                                    Sum of donations:
+                                    Your anonymous donations:
+                                </dt>
+
                                 <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
-                                    {{ $donations->where('user_id', '=', auth()->user()->id)->sum('amount') }}
+                                    @foreach($user_anonymous_donations as $donation)
+                                        <a href="{{ route('fundraisers.donations.show', [$donation->fundraiser, $donation]) }}">{{$donation->amount}}</a>
+                                        <br>
+                                    @endforeach
+                                    @if($user_donations->isEmpty())
+                                        none
+                                    @endif
+                                </dd>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt class="text-sm font-medium text-gray-500">
+                                    Sum of your non-anonymous donations:
+                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    {{ auth()->user()->scopeSumOfDonations($donations) }}
+                                </dd>
+                            </div>
+                            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                                <dt class="text-sm font-medium text-gray-500">
+                                    Sum of all your donations:
+                                <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+                                    {{ $sum_donations }}
                                 </dd>
                             </div>
                             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">

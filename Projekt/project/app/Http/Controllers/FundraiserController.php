@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Fundraiser;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use \App\Models\Donation;
 
 class FundraiserController extends Controller
 {
@@ -96,9 +97,9 @@ class FundraiserController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Fundraiser $fundraiser)
-    {
+    {   $latest_5_donations = Donation::orderBy('created_at')->where('fundraiser_id', $fundraiser->id)->get()->take(5);
         $is_closed = $fundraiser->stop_date < \Carbon\Carbon::now()->toDateTimeString();
-        return view('fundraisers.show', ['is_closed' => $is_closed])->withFundraiser($fundraiser);
+        return view('fundraisers.show', ["latest_5_donations" => $latest_5_donations, 'is_closed' => $is_closed])->withFundraiser($fundraiser);
     }
 
     /**

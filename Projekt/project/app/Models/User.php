@@ -55,11 +55,11 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function scopeSumOfDonations($query){
-        return $query->where('user_id', '=', $this->id)->sum('amount');
+        return $query->where('is_anonymous', '=', '0')->where('user_id', '=', $this->id)->sum('amount');
     }
 
     public static function scopeRanking(){
-        $records = DB::table('donations')->join('users', 'donations.user_id', '=', 'users.id')->whereNull('deleted_at')
+        $records = DB::table('donations')->where('is_anonymous', '=', '0')->join('users', 'donations.user_id', '=', 'users.id')->whereNull('deleted_at')
             ->groupBy('id')->get(['users.id', DB::raw('sum(donations.amount) as total')])->sortByDesc('total');
         $ranking = [];
         foreach($records as $record){
@@ -70,7 +70,7 @@ class User extends Authenticatable implements MustVerifyEmail
     }
 
     public function isSpecial(){
-        if($this->scopeSumOfDonations(DB::table('donations')->where('created_at', '>', Carbon::now()->subDays(7))) > 500) {
+        if($this->scopeSumOfDonations(DB::table('donations')->where('is_anonymous', '=', '0')->where('created_at', '>', Carbon::now()->subDays(7))) > 500) {
         return "orange";
         }
         else{
