@@ -20,6 +20,7 @@ class FundraiserController extends Controller
      */
     public function index(Request $request)
     {
+
         $this->validate($request, [
             'amount_to_be_raised' => 'numeric|nullable|min:0|max:99999999'
         ]);
@@ -41,11 +42,15 @@ class FundraiserController extends Controller
             session(['start_date' => $request->input('start_date')]);
         }
 
-        if(isset($_GET['submit']))
-             $fundraisers = $this->sort($fundraisers);
-        else
-             $fundraisers = $this->filter($fundraisers);
-             $paged = $fundraisers->paginate(10);
+        if(isset($_GET['submit'])) {
+            $fundraisers = Fundraiser::select("*");
+            $fundraisers = $this->sort($fundraisers);
+        }
+        else {
+            $fundraisers = $this->filter($fundraisers);
+        }
+
+        $paged = $fundraisers->paginate(10);
 
         return view('fundraisers.index', ["paged" => $paged])->withFundraisers($fundraisers->get())->withCategories(Category::all());
     }
