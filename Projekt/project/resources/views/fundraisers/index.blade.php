@@ -53,14 +53,14 @@
                                 {{ __('Show All') }}
                             </x-button>
                         </div>
-                            <div class="flex items-center justify-end mt-4 px-4 pb-5">
-                                <form method="get" action="{{ route('fundraisers.create') }}">
-                                    <x-button class="ml-4">
-                                        {{ __('Create new...') }}
-                                    </x-button>
-                                </form>
-                            </div>
                     </form>
+                    <div class="flex items-center justify-end mt-4 px-4 pb-5">
+                        <form method="get" action="{{ route('fundraisers.create') }}">
+                            <x-button class="ml-4">
+                                {{ __('Create new...') }}
+                            </x-button>
+                        </form>
+                    </div>
                 @if( count($fundraisers) < 1 )
                     <p class="p-6">No fundraisers available.</p>
                 @else

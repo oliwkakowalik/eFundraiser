@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     $best_3_users = array_slice(User::scopeRanking(Donation::all()), 0, 3);
-    $latest_3_donations = Donation::all()->sortBy('created_at')->take(3);
+    $latest_3_donations = Donation::all()->sortByDesc('created_at')->take(3);
     return view('Toss_a_coin', ['latest_3_donations' => $latest_3_donations, 'best_3_users' => $best_3_users])
         ->withFundraisers(Fundraiser::orderByDesc('created_at')->get()->take(3))
         ->withDonations(Donation::all());
