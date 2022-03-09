@@ -1,5 +1,5 @@
 # eFundraiser
-Group project of web application to run online fundraisers. Main view is a list of latest fundraisers, donations and top users.
+Group project of web application for creating and donating fundraisers. Main view is a list of latest fundraisers, donations and top users.
 
 <img src="pictures/1.png" alt="drawing" width="1500"/>
 
